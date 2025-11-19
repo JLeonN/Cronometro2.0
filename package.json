@@ -11,7 +11,10 @@
     "format": "prettier --write \"**/*.{js,vue,css,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build",
+    "build": "quasar build -m capacitor -T android",
+    "generar-apk": "npm run build && cd src-capacitor && npx cap open android",
+    "abrir-android": "cd src-capacitor && npx cap open android",
+    "cap:sync": "cd src-capacitor && npx cap sync android",
     "postinstall": "quasar prepare"
   },
   "dependencies": {
