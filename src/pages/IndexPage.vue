@@ -1,13 +1,17 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    />
-  </q-page>
+  <q-page class="pagina-principal"> </q-page>
 </template>
 
 <script setup>
 //
 </script>
+
+<style scoped>
+.pagina-principal {
+  background: linear-gradient(
+    to bottom,
+    var(--fondo-degradado-intenso-top),
+    var(--fondo-degradado-intenso-bottom)
+  );
+}
+</style>
