@@ -1,0 +1,102 @@
+/* ============================================
+   SISTEMA DE COLORES - CRONÓMETRO APP
+   ============================================ */
+/* --- COLORES PRINCIPALES (MARCA) --- */
+:root {
+  /* Azules del cronómetro */
+  --color-azul-oscuro: #003f83;
+  --color-azul-medio: #2a95ff;
+  --color-azul-claro: #2bcbfe;
+  --color-azul-suave: #e3f5ff;
+
+  /* Amarillo (acento principal) */
+  --color-amarillo: #ffd600;
+  --color-amarillo-claro: #fff4cc;
+
+  /* --- FONDOS (2 opciones de degradado) --- */
+  /* Opción 1: Degradado intenso (como el ícono) */
+  --fondo-degradado-intenso-top: #2bcbfe;
+  --fondo-degradado-intenso-bottom: #2a95ff;
+
+  /* Opción 2: Degradado suave */
+  --fondo-degradado-suave-top: #f8fcff;
+  --fondo-degradado-suave-bottom: #e3f5ff;
+
+  /* Fondos base */
+  --color-fondo-blanco: #ffffff;
+  --color-fondo-gris: #e2e4e7;
+
+  /* --- COLORES FUNCIONALES (todos azulados) --- */
+  /* Éxito (verde tirando a turquesa) */
+  --color-exito: #00b8a9;
+  --color-exito-claro: #d4f5f2;
+  --color-exito-oscuro: #008c7f;
+
+  /* Error (rojo con toque azulado) */
+  --color-error: #d63447;
+  --color-error-claro: #fce8eb;
+  --color-error-oscuro: #a32836;
+
+  /* Advertencia (naranja cálido azulado) */
+  --color-advertencia: #ff8c42;
+  --color-advertencia-claro: #fff0e6;
+  --color-advertencia-oscuro: #cc6f35;
+
+  /* Información (violeta azulado) */
+  --color-info: #6c5ce7;
+  --color-info-claro: #ede9fc;
+  --color-info-oscuro: #5746b8;
+
+  /* Deshabilitado/Sin acceso (gris azulado) */
+  --color-deshabilitado: #8895a7;
+  --color-deshabilitado-claro: #e8ebed;
+  --color-deshabilitado-oscuro: #6b7785;
+
+  /* --- TEXTO --- */
+  --color-texto-principal: #1a2332;
+  --color-texto-secundario: #4a5568;
+  --color-texto-terciario: #8895a7;
+  --color-texto-blanco: #ffffff;
+  --color-texto-sobre-amarillo: #1a2332;
+
+  /* --- SOMBRAS (con tinte azulado) --- */
+  --sombra-suave: 0 2px 8px rgba(0, 63, 131, 0.08);
+  --sombra-media: 0 4px 16px rgba(0, 63, 131, 0.12);
+  --sombra-fuerte: 0 8px 24px rgba(0, 63, 131, 0.16);
+  --sombra-extra: 0 12px 32px rgba(0, 63, 131, 0.2);
+
+  /* --- BORDES --- */
+  --color-borde-suave: #d4dce5;
+  --color-borde-medio: #b8c5d6;
+  --color-borde-fuerte: #8895a7;
+
+  /* --- HOVER/ESTADOS --- */
+  --color-hover-azul: rgba(42, 149, 255, 0.08);
+  --color-hover-amarillo: rgba(255, 214, 0, 0.15);
+  --color-activo-azul: rgba(42, 149, 255, 0.15);
+
+  /* --- OVERLAYS --- */
+  --overlay-oscuro: rgba(0, 63, 131, 0.7);
+  --overlay-claro: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   EJEMPLO DE USO DE DEGRADADOS
+   ============================================ */
+
+/* Opción 1: Degradado intenso */
+.fondo-intenso {
+  background: linear-gradient(
+    to bottom,
+    var(--fondo-degradado-intenso-top),
+    var(--fondo-degradado-intenso-bottom)
+  );
+}
+/* Opción 2: Degradado suave */
+.fondo-suave {
+  background: linear-gradient(
+    to bottom,
+    var(--fondo-degradado-suave-top),
+    var(--fondo-degradado-suave-bottom)
+  );
+}
