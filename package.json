@@ -1,6 +1,6 @@
 {
   "name": "cronometro2",
-  "version": "0.0.1",
+  "version": "2.0.2",
   "description": "Cronómetro con registro de marcas y tiempos",
   "productName": "Cronómetro",
   "author": "Leonardo Núñez <jorgebike.75@hotmail.com>",
@@ -12,7 +12,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build -m capacitor -T android",
-    "generar-apk": "npm run build && cd src-capacitor && npx cap open android",
+    "generar-apk": "npm run build && npm run cap:sync && npm run abrir-android",
     "abrir-android": "cd src-capacitor && npx cap open android",
     "cap:sync": "cd src-capacitor && npx cap sync android",
     "postinstall": "quasar prepare"
