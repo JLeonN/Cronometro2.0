@@ -1,14 +1,23 @@
-import { defineBoot } from '#q-app/wrappers'
+import { boot } from 'quasar/wrappers'
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
+import { useConfiguracionStore } from 'src/stores/configuracion'
 
-export default defineBoot(({ app }) => {
+export default boot(async ({ app }) => {
+  // Crear instancia de i18n
   const i18n = createI18n({
-    locale: 'en-US',
+    locale: 'es-419',
+    legacy: false,
     globalInjection: true,
     messages,
   })
 
-  // Set i18n instance on app
   app.use(i18n)
+
+  // Inicializar store y detectar idioma
+  const configuracionStore = useConfiguracionStore()
+  await configuracionStore.inicializarIdioma()
+
+  // Aplicar idioma detectado
+  i18n.global.locale.value = configuracionStore.idiomaActual
 })
