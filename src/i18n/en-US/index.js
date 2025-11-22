@@ -29,4 +29,38 @@ export default {
   notificaciones: {
     idiomaCambiado: 'Language changed successfully',
   },
+
+  // Stopwatch
+  cronometro: {
+    titulo: 'STOPWATCH',
+    totalMarcas: 'Total',
+    promedioMarcas: 'Average',
+    botones: {
+      iniciar: 'Start',
+      pausar: 'Pause',
+      reanudar: 'Resume',
+      detener: 'Stop',
+      marca: 'Lap',
+    },
+    marcas: {
+      titulo: 'Laps',
+      intervalo: 'Interval',
+      sinMarcas: 'No laps recorded',
+      eliminarTodas: 'Delete all',
+      todasEliminadas: 'All laps were deleted',
+      marcaEliminada: 'Lap deleted',
+      confirmarEliminarTodas: {
+        titulo: 'Delete all laps?',
+        mensaje: 'This action cannot be undone',
+        confirmar: 'Delete',
+        cancelar: 'Cancel',
+      },
+      confirmarEliminarMarca: {
+        titulo: 'Delete this lap?',
+        mensaje: 'This action cannot be undone',
+        confirmar: 'Delete',
+        cancelar: 'Cancel',
+      },
+    },
+  },
 }

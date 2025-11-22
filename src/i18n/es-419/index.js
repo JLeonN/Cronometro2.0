@@ -29,4 +29,38 @@ export default {
   notificaciones: {
     idiomaCambiado: 'Idioma cambiado exitosamente',
   },
+
+  // Cronómetro
+  cronometro: {
+    titulo: 'CRONÓMETRO',
+    totalMarcas: 'Total',
+    promedioMarcas: 'Promedio',
+    botones: {
+      iniciar: 'Iniciar',
+      pausar: 'Pausar',
+      reanudar: 'Reanudar',
+      detener: 'Detener',
+      marca: 'Marca',
+    },
+    marcas: {
+      titulo: 'Marcas',
+      intervalo: 'Intervalo',
+      sinMarcas: 'No hay marcas registradas',
+      eliminarTodas: 'Eliminar todas',
+      todasEliminadas: 'Todas las marcas fueron eliminadas',
+      marcaEliminada: 'Marca eliminada',
+      confirmarEliminarTodas: {
+        titulo: '¿Eliminar todas las marcas?',
+        mensaje: 'Esta acción no se puede deshacer',
+        confirmar: 'Eliminar',
+        cancelar: 'Cancelar',
+      },
+      confirmarEliminarMarca: {
+        titulo: '¿Eliminar esta marca?',
+        mensaje: 'Esta acción no se puede deshacer',
+        confirmar: 'Eliminar',
+        cancelar: 'Cancelar',
+      },
+    },
+  },
 }
