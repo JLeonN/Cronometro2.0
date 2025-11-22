@@ -118,7 +118,6 @@ function accionBotonDerecho() {
   gap: 1.5rem;
   padding: 1.5rem 1rem 2rem 1rem;
 }
-
 .boton-control {
   min-width: 64px;
   min-height: 64px;
@@ -132,19 +131,16 @@ function accionBotonDerecho() {
   align-items: center;
   justify-content: center;
 }
-
 .boton-control:active {
   transform: scale(0.94);
   box-shadow: var(--sombra-media);
 }
-
 /* Cuando el botón derecho está deshabilitado */
 .boton-control.q-btn--disabled,
 .boton-control[disabled] {
   opacity: 0.55;
   filter: grayscale(0.25);
 }
-
 /* Responsive */
 @media (max-width: 360px) {
   .boton-control {
@@ -152,7 +148,6 @@ function accionBotonDerecho() {
     min-height: 56px;
     font-size: 1.4rem;
   }
-
   .cronometro-controles {
     gap: 1.5rem;
   }

@@ -31,7 +31,6 @@ import CronometroMarcas from 'src/components/CronometroMarcas.vue'
   height: 100vh;
   overflow: hidden;
 }
-
 .seccion-superior {
   display: flex;
   flex-direction: column;
@@ -42,7 +41,6 @@ import CronometroMarcas from 'src/components/CronometroMarcas.vue'
   position: relative;
   padding-bottom: 2.5rem;
 }
-
 .seccion-inferior {
   flex: 1;
   display: flex;
