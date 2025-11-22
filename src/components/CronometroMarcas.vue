@@ -102,14 +102,12 @@ function confirmarEliminarMarca(idMarca, reset) {
   width: 100%;
   overflow: hidden;
 }
-
 .marcas-encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 0.5rem 0.5rem 0.5rem;
 }
-
 .marcas-titulo {
   font-size: 0.8rem;
   font-weight: 600;
@@ -117,18 +115,15 @@ function confirmarEliminarMarca(idMarca, reset) {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .boton-eliminar {
   color: var(--color-error);
   opacity: 0.8;
 }
-
 .lista-marcas {
   flex: 1;
   overflow-y: auto;
   padding: 0 4px 50px 4px;
 }
-
 /* --- ESTILO TIPO TARJETA --- */
 .slide-marca {
   margin-bottom: 0.5rem;
@@ -136,7 +131,6 @@ function confirmarEliminarMarca(idMarca, reset) {
   overflow: hidden;
   background: transparent;
 }
-
 .marca-item {
   display: flex;
   align-items: center;
@@ -149,11 +143,9 @@ function confirmarEliminarMarca(idMarca, reset) {
   border-radius: 12px;
   transition: background 0.2s;
 }
-
 .marca-item:active {
   background: rgba(255, 255, 255, 0.15);
 }
-
 .marca-indice {
   display: flex;
   align-items: center;
@@ -167,7 +159,6 @@ function confirmarEliminarMarca(idMarca, reset) {
   font-size: 0.85rem;
   margin-right: 0.75rem;
 }
-
 .marca-tiempo {
   font-size: 1.4rem;
   font-weight: 700;
@@ -175,28 +166,24 @@ function confirmarEliminarMarca(idMarca, reset) {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
 }
-
 .marca-info-der {
   text-align: right;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-
 .marca-intervalo {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--color-azul-medio);
   font-variant-numeric: tabular-nums;
 }
-
 .etiqueta-intervalo {
   font-size: 0.55rem;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
   margin-top: 2px;
 }
-
 .slide-accion {
   background: var(--color-error);
   height: 100%;
@@ -206,7 +193,6 @@ function confirmarEliminarMarca(idMarca, reset) {
   padding-right: 1.5rem;
   border-radius: 12px;
 }
-
 /* --- ESTADO VACÍO (Limpiado y Subido) --- */
 .sin-marcas {
   flex: 1;
@@ -219,20 +205,17 @@ function confirmarEliminarMarca(idMarca, reset) {
   gap: 0.75rem;
   opacity: 0.4;
 }
-
 .icono-vacio {
   color: var(--color-texto-blanco);
   /* Aseguramos que no tenga márgenes raros */
   margin: 0;
   line-height: 1;
 }
-
 .sin-marcas-texto {
   color: var(--color-texto-blanco);
   font-size: 0.9rem;
   text-align: center;
 }
-
 .lista-marcas::-webkit-scrollbar {
   width: 0px;
   background: transparent;
