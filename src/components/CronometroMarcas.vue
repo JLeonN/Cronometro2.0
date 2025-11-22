@@ -1,13 +1,8 @@
 <template>
   <div class="cronometro-marcas">
-    <!-- Encabezado con botón de eliminar todas -->
+    <!-- Encabezado -->
     <div v-if="cronometroStore.totalMarcas > 0" class="marcas-encabezado">
       <div class="marcas-titulo">{{ $t('cronometro.marcas.titulo') }}</div>
-
-      <q-btn flat dense round class="boton-eliminar" size="sm" @click="confirmarEliminarTodas">
-        <component :is="IconTrash" :stroke="2" size="20" />
-        <q-tooltip>{{ $t('cronometro.marcas.eliminarTodas') }}</q-tooltip>
-      </q-btn>
     </div>
 
     <!-- Lista de marcas -->
@@ -21,7 +16,7 @@
       >
         <template #right>
           <div class="slide-accion">
-            <component :is="IconTrashX" color="white" :stroke="2" size="24" />
+            <IconTrashX color="white" :stroke="2" :size="24" />
           </div>
         </template>
 
@@ -48,46 +43,22 @@
 
     <!-- Mensaje cuando no hay marcas -->
     <div v-else class="sin-marcas">
-      <component :is="IconStopwatch" :stroke="1.5" size="64" class="icono-vacio" />
+      <IconStopwatch :stroke="1.5" :size="64" class="icono-vacio" />
       <div class="sin-marcas-texto">{{ $t('cronometro.marcas.sinMarcas') }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { IconTrashX, IconStopwatch } from '@tabler/icons-vue'
 import { useCronometroStore } from 'src/stores/cronometro'
-import { useI18n } from 'vue-i18n'
-import { useQuasar } from 'quasar'
-// Importamos los iconos necesarios para evitar las "figuras rotas"
-import { IconTrash, IconTrashX, IconStopwatch } from '@tabler/icons-vue'
 
 const cronometroStore = useCronometroStore()
-const { t } = useI18n()
-const $q = useQuasar()
-
-function confirmarEliminarTodas() {
-  $q.dialog({
-    title: t('cronometro.marcas.confirmarEliminarTodas.titulo'),
-    message: t('cronometro.marcas.confirmarEliminarTodas.mensaje'),
-    cancel: {
-      flat: true,
-      label: t('cronometro.marcas.confirmarEliminarTodas.cancelar'),
-      color: 'white',
-    },
-    ok: {
-      flat: true,
-      label: t('cronometro.marcas.confirmarEliminarTodas.confirmar'),
-      color: 'negative',
-    },
-    dark: true,
-    persistent: true,
-  }).onOk(() => {
-    cronometroStore.eliminarTodasLasMarcas()
-  })
-}
 
 function confirmarEliminarMarca(idMarca, reset) {
-  if (navigator.vibrate) navigator.vibrate(50)
+  if (navigator.vibrate) {
+    navigator.vibrate(50)
+  }
   cronometroStore.eliminarMarca(idMarca)
   reset()
 }
@@ -104,7 +75,7 @@ function confirmarEliminarMarca(idMarca, reset) {
 }
 .marcas-encabezado {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 0 0.5rem 0.5rem 0.5rem;
 }
@@ -114,10 +85,6 @@ function confirmarEliminarMarca(idMarca, reset) {
   color: var(--color-azul-claro);
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-.boton-eliminar {
-  color: var(--color-error);
-  opacity: 0.8;
 }
 .lista-marcas {
   flex: 1;
@@ -193,21 +160,19 @@ function confirmarEliminarMarca(idMarca, reset) {
   padding-right: 1.5rem;
   border-radius: 12px;
 }
-/* --- ESTADO VACÍO (Limpiado y Subido) --- */
+/* --- ESTADO VACÍO --- */
 .sin-marcas {
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* Alineamos al inicio (arriba) */
   justify-content: flex-start;
   align-items: center;
-  padding-top: 1.5rem; /* Ajusta este valor si quieres subirlo más o menos */
+  padding-top: 1.5rem;
   gap: 0.75rem;
   opacity: 0.4;
 }
 .icono-vacio {
   color: var(--color-texto-blanco);
-  /* Aseguramos que no tenga márgenes raros */
   margin: 0;
   line-height: 1;
 }
@@ -217,7 +182,7 @@ function confirmarEliminarMarca(idMarca, reset) {
   text-align: center;
 }
 .lista-marcas::-webkit-scrollbar {
-  width: 0px;
+  width: 0;
   background: transparent;
 }
 </style>
