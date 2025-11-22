@@ -3,15 +3,9 @@
     <!-- Encabezado con botón de eliminar todas -->
     <div v-if="cronometroStore.totalMarcas > 0" class="marcas-encabezado">
       <div class="marcas-titulo">{{ $t('cronometro.marcas.titulo') }}</div>
-      <q-btn
-        flat
-        dense
-        round
-        icon="ti ti-trash"
-        class="boton-eliminar"
-        size="sm"
-        @click="confirmarEliminarTodas"
-      >
+
+      <q-btn flat dense round class="boton-eliminar" size="sm" @click="confirmarEliminarTodas">
+        <component :is="IconTrash" :stroke="2" size="20" />
         <q-tooltip>{{ $t('cronometro.marcas.eliminarTodas') }}</q-tooltip>
       </q-btn>
     </div>
@@ -27,7 +21,7 @@
       >
         <template #right>
           <div class="slide-accion">
-            <q-icon name="ti ti-trash-x" color="white" size="1.5rem" />
+            <component :is="IconTrashX" color="white" :stroke="2" size="24" />
           </div>
         </template>
 
@@ -54,7 +48,7 @@
 
     <!-- Mensaje cuando no hay marcas -->
     <div v-else class="sin-marcas">
-      <q-icon name="ti ti-stopwatch" size="4rem" class="icono-vacio" />
+      <component :is="IconStopwatch" :stroke="1.5" size="64" class="icono-vacio" />
       <div class="sin-marcas-texto">{{ $t('cronometro.marcas.sinMarcas') }}</div>
     </div>
   </div>
@@ -64,12 +58,13 @@
 import { useCronometroStore } from 'src/stores/cronometro'
 import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
+// Importamos los iconos necesarios para evitar las "figuras rotas"
+import { IconTrash, IconTrashX, IconStopwatch } from '@tabler/icons-vue'
 
 const cronometroStore = useCronometroStore()
 const { t } = useI18n()
 const $q = useQuasar()
 
-// ... (TUS MISMAS FUNCIONES JS, NO HAN CAMBIADO) ...
 function confirmarEliminarTodas() {
   $q.dialog({
     title: t('cronometro.marcas.confirmarEliminarTodas.titulo'),
@@ -84,7 +79,7 @@ function confirmarEliminarTodas() {
       label: t('cronometro.marcas.confirmarEliminarTodas.confirmar'),
       color: 'negative',
     },
-    dark: true, // Dialogo oscuro
+    dark: true,
     persistent: true,
   }).onOk(() => {
     cronometroStore.eliminarTodasLasMarcas()
@@ -92,10 +87,7 @@ function confirmarEliminarTodas() {
 }
 
 function confirmarEliminarMarca(idMarca, reset) {
-  // Pequeña vibración si es posible
   if (navigator.vibrate) navigator.vibrate(50)
-
-  // Eliminación directa o con confirmación según prefieras
   cronometroStore.eliminarMarca(idMarca)
   reset()
 }
@@ -106,99 +98,105 @@ function confirmarEliminarMarca(idMarca, reset) {
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* Eliminado el fondo blanco y shadow del contenedor general */
   background: transparent;
-  box-shadow: none;
+  width: 100%;
   overflow: hidden;
 }
+
 .marcas-encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0.5rem 1rem 0.5rem;
+  padding: 0 0.5rem 0.5rem 0.5rem;
 }
+
 .marcas-titulo {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-azul-claro);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
 .boton-eliminar {
   color: var(--color-error);
   opacity: 0.8;
 }
+
 .lista-marcas {
   flex: 1;
   overflow-y: auto;
-  /* Padding interno para que las cartas no toquen los bordes */
   padding: 0 4px 50px 4px;
 }
-/* --- ESTILO TIPO TARJETA (CARD) --- */
+
+/* --- ESTILO TIPO TARJETA --- */
 .slide-marca {
-  margin-bottom: 0.75rem; /* Espacio entre tarjetas */
-  border-radius: 16px;
+  margin-bottom: 0.5rem;
+  border-radius: 12px;
   overflow: hidden;
   background: transparent;
 }
+
 .marca-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  /* ESTILO GLASSMORPHISM */
-  background: rgba(255, 255, 255, 0.08); /* Fondo semi-transparente */
+  padding: 0.75rem 1rem;
+  /* Glassmorphism */
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-
+  border-radius: 12px;
   transition: background 0.2s;
 }
+
 .marca-item:active {
   background: rgba(255, 255, 255, 0.15);
 }
-/* Columna Índice (Círculo) */
+
 .marca-indice {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(43, 203, 254, 0.15); /* Azul claro muy suave */
+  width: 30px;
+  height: 30px;
+  background: rgba(43, 203, 254, 0.15);
   border-radius: 50%;
   color: var(--color-azul-claro);
   font-weight: 700;
-  font-size: 0.9rem;
-  margin-right: 1rem;
+  font-size: 0.85rem;
+  margin-right: 0.75rem;
 }
-/* Tiempo Principal */
+
 .marca-tiempo {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--color-texto-blanco);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
 }
-/* Intervalo (Derecha) */
+
 .marca-info-der {
   text-align: right;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .marca-intervalo {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: var(--color-azul-medio); /* Azul medio para diferencia */
+  color: var(--color-azul-medio);
   font-variant-numeric: tabular-nums;
 }
+
 .etiqueta-intervalo {
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
   margin-top: 2px;
 }
-/* Acción de deslizar (Fondo Rojo) */
+
 .slide-accion {
   background: var(--color-error);
   height: 100%;
@@ -206,27 +204,35 @@ function confirmarEliminarMarca(idMarca, reset) {
   align-items: center;
   justify-content: flex-end;
   padding-right: 1.5rem;
-  border-radius: 16px; /* Para que coincida con la tarjeta */
+  border-radius: 12px;
 }
-/* Estado Vacío */
+
+/* --- ESTADO VACÍO (Limpiado y Subido) --- */
 .sin-marcas {
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* Alineamos al inicio (arriba) */
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  opacity: 0.5;
-  margin-top: 2rem;
+  padding-top: 1.5rem; /* Ajusta este valor si quieres subirlo más o menos */
+  gap: 0.75rem;
+  opacity: 0.4;
 }
+
 .icono-vacio {
   color: var(--color-texto-blanco);
+  /* Aseguramos que no tenga márgenes raros */
+  margin: 0;
+  line-height: 1;
 }
+
 .sin-marcas-texto {
   color: var(--color-texto-blanco);
   font-size: 0.9rem;
+  text-align: center;
 }
-/* Scrollbar invisible pero funcional */
+
 .lista-marcas::-webkit-scrollbar {
   width: 0px;
   background: transparent;
