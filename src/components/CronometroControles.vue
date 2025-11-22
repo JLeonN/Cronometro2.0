@@ -2,79 +2,79 @@
   <div class="cronometro-controles">
     <!-- Botón Izquierdo (Play/Pausa/Reanudar) -->
     <q-btn
-      :icon="iconoBotonIzquierdo"
-      :color="colorBotonIzquierdo"
-      size="xl"
-      round
       unelevated
       class="boton-control boton-izquierdo"
+      :class="claseBotonIzquierdo"
       @click="accionBotonIzquierdo"
-    />
+    >
+      <component :is="componenteIconoIzquierdo" :stroke="2" :size="28" />
+    </q-btn>
 
     <!-- Botón Derecho (Marca/Stop) -->
     <q-btn
-      :icon="iconoBotonDerecho"
-      :color="colorBotonDerecho"
       :disable="botonDerechoDeshabilitado"
-      size="xl"
-      round
       unelevated
       class="boton-control boton-derecho"
+      :class="claseBotonDerecho"
       @click="accionBotonDerecho"
-    />
+    >
+      <component
+        v-if="componenteIconoDerecho"
+        :is="componenteIconoDerecho"
+        :stroke="2"
+        :size="28"
+      />
+    </q-btn>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, markRaw } from 'vue'
 import { useCronometroStore } from 'src/stores/cronometro'
+import { IconPlayerPlay, IconPlayerPause, IconPlayerStop, IconFlag } from '@tabler/icons-vue'
 
 const cronometroStore = useCronometroStore()
 
 // ========================================
-// COMPUTED - BOTÓN IZQUIERDO
+// ICONOS (Usando markRaw para evitar errores de reactividad)
 // ========================================
-const iconoBotonIzquierdo = computed(() => {
+
+const componenteIconoIzquierdo = computed(() => {
   switch (cronometroStore.estadoCronometro) {
     case 'detenido':
-      return 'ti ti-player-play-filled'
+      return markRaw(IconPlayerPlay)
     case 'corriendo':
-      return 'ti ti-player-pause-filled'
+      return markRaw(IconPlayerPause)
     case 'pausado':
-      return 'ti ti-player-play-filled'
+      return markRaw(IconPlayerPlay)
     default:
-      return 'ti ti-player-play-filled'
+      return markRaw(IconPlayerPlay)
   }
 })
 
-const colorBotonIzquierdo = computed(() => {
-  return 'primary'
-})
-
-// ========================================
-// COMPUTED - BOTÓN DERECHO
-// ========================================
-const iconoBotonDerecho = computed(() => {
+const componenteIconoDerecho = computed(() => {
   switch (cronometroStore.estadoCronometro) {
-    case 'detenido':
-      return ''
     case 'corriendo':
-      return 'ti ti-flag-filled'
+      return markRaw(IconFlag)
     case 'pausado':
-      return 'ti ti-square-rounded-filled'
+      return markRaw(IconPlayerStop)
     default:
-      return ''
+      return null
   }
 })
 
-const colorBotonDerecho = computed(() => {
-  if (cronometroStore.estadoCronometro === 'corriendo') {
-    return 'warning'
-  }
-  if (cronometroStore.estadoCronometro === 'pausado') {
-    return 'negative'
-  }
-  return 'grey-5'
+// ========================================
+// ESTILOS
+// ========================================
+
+const claseBotonIzquierdo = computed(() => {
+  return 'btn-amarillo'
+})
+
+const claseBotonDerecho = computed(() => {
+  if (cronometroStore.estadoCronometro === 'corriendo') return 'btn-azul-claro'
+  if (cronometroStore.estadoCronometro === 'pausado') return 'btn-rojo'
+  return 'btn-deshabilitado'
 })
 
 const botonDerechoDeshabilitado = computed(() => {
@@ -84,6 +84,7 @@ const botonDerechoDeshabilitado = computed(() => {
 // ========================================
 // ACCIONES
 // ========================================
+
 function accionBotonIzquierdo() {
   switch (cronometroStore.estadoCronometro) {
     case 'detenido':
@@ -115,41 +116,42 @@ function accionBotonDerecho() {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem 1rem 2rem 1rem;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem 0;
 }
 .boton-control {
-  min-width: 64px;
-  min-height: 64px;
+  width: 70px;
+  height: 48px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
   padding: 0;
-  font-size: 1.6rem;
-  box-shadow: var(--sombra-fuerte);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .boton-control:active {
-  transform: scale(0.94);
-  box-shadow: var(--sombra-media);
+  transform: scale(0.95);
 }
-/* Cuando el botón derecho está deshabilitado */
-.boton-control.q-btn--disabled,
-.boton-control[disabled] {
-  opacity: 0.55;
-  filter: grayscale(0.25);
+/* --- COLORES --- */
+.btn-amarillo {
+  background-color: var(--color-amarillo) !important;
+  color: var(--color-texto-sobre-amarillo) !important;
+  box-shadow: 0 4px 12px rgba(255, 214, 0, 0.2);
 }
-/* Responsive */
-@media (max-width: 360px) {
-  .boton-control {
-    min-width: 56px;
-    min-height: 56px;
-    font-size: 1.4rem;
-  }
-  .cronometro-controles {
-    gap: 1.5rem;
-  }
+.btn-azul-claro {
+  background-color: rgba(43, 203, 254, 0.15) !important;
+  color: var(--color-azul-claro) !important;
+  border: 1px solid rgba(43, 203, 254, 0.2);
+}
+.btn-rojo {
+  background-color: rgba(214, 52, 71, 0.15) !important;
+  color: var(--color-error) !important;
+  border: 1px solid rgba(214, 52, 71, 0.2);
+}
+.btn-deshabilitado {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid transparent;
 }
 </style>

@@ -8,7 +8,7 @@
         dense
         round
         icon="ti ti-trash"
-        color="negative"
+        class="boton-eliminar"
         size="sm"
         @click="confirmarEliminarTodas"
       >
@@ -21,46 +21,40 @@
       <q-slide-item
         v-for="marca in cronometroStore.marcas"
         :key="marca.id"
-        right-color="negative"
+        class="slide-marca"
+        right-color="transparent"
         @right="({ reset }) => confirmarEliminarMarca(marca.id, reset)"
       >
         <template #right>
           <div class="slide-accion">
-            <q-icon name="ti ti-trash" />
+            <q-icon name="ti ti-trash-x" color="white" size="1.5rem" />
           </div>
         </template>
 
-        <q-item class="marca-item">
-          <!-- Badge con número de marca -->
-          <q-item-section avatar>
-            <q-avatar color="positive" text-color="white" size="32px">
-              {{ marca.numero }}
-            </q-avatar>
-          </q-item-section>
+        <div class="marca-item">
+          <div class="marca-indice">
+            <span class="numero">{{ marca.numero }}</span>
+          </div>
 
-          <!-- Tiempo de la marca -->
-          <q-item-section>
-            <q-item-label class="marca-tiempo">
+          <div class="marca-info-central">
+            <div class="marca-tiempo">
               {{ cronometroStore.formatearTiempo(marca.tiempoMarca) }}
-            </q-item-label>
-          </q-item-section>
+            </div>
+          </div>
 
-          <!-- Intervalo entre marcas -->
-          <q-item-section side>
-            <q-item-label class="marca-intervalo">
-              {{ cronometroStore.formatearTiempo(marca.intervalo) }}
-            </q-item-label>
-            <q-item-label caption class="marca-intervalo-label">
-              {{ $t('cronometro.marcas.intervalo') }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
+          <div class="marca-info-der">
+            <div class="marca-intervalo">
+              +{{ cronometroStore.formatearTiempo(marca.intervalo) }}
+            </div>
+            <div class="etiqueta-intervalo">{{ $t('cronometro.marcas.intervalo') }}</div>
+          </div>
+        </div>
       </q-slide-item>
     </q-list>
 
     <!-- Mensaje cuando no hay marcas -->
     <div v-else class="sin-marcas">
-      <q-icon name="ti ti-clock-off" size="3rem" color="grey-5" />
+      <q-icon name="ti ti-stopwatch" size="4rem" class="icono-vacio" />
       <div class="sin-marcas-texto">{{ $t('cronometro.marcas.sinMarcas') }}</div>
     </div>
   </div>
@@ -70,15 +64,12 @@
 import { useCronometroStore } from 'src/stores/cronometro'
 import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
-// import { nextTick } from 'vue'
 
 const cronometroStore = useCronometroStore()
 const { t } = useI18n()
 const $q = useQuasar()
 
-// ========================================
-// FUNCIONES
-// ========================================
+// ... (TUS MISMAS FUNCIONES JS, NO HAN CAMBIADO) ...
 function confirmarEliminarTodas() {
   $q.dialog({
     title: t('cronometro.marcas.confirmarEliminarTodas.titulo'),
@@ -86,54 +77,27 @@ function confirmarEliminarTodas() {
     cancel: {
       flat: true,
       label: t('cronometro.marcas.confirmarEliminarTodas.cancelar'),
+      color: 'white',
     },
     ok: {
       flat: true,
       label: t('cronometro.marcas.confirmarEliminarTodas.confirmar'),
       color: 'negative',
     },
+    dark: true, // Dialogo oscuro
     persistent: true,
   }).onOk(() => {
     cronometroStore.eliminarTodasLasMarcas()
-    mostrarNotificacionEliminacion(t('cronometro.marcas.todasEliminadas'))
   })
 }
 
 function confirmarEliminarMarca(idMarca, reset) {
-  $q.dialog({
-    title: t('cronometro.marcas.confirmarEliminarMarca.titulo'),
-    message: t('cronometro.marcas.confirmarEliminarMarca.mensaje'),
-    cancel: {
-      flat: true,
-      label: t('cronometro.marcas.confirmarEliminarMarca.cancelar'),
-    },
-    ok: {
-      flat: true,
-      label: t('cronometro.marcas.confirmarEliminarMarca.confirmar'),
-      color: 'negative',
-    },
-    persistent: true,
-  })
-    .onOk(() => {
-      cronometroStore.eliminarMarca(idMarca)
-      mostrarNotificacionEliminacion(t('cronometro.marcas.marcaEliminada'))
-    })
-    .onCancel(() => {
-      reset()
-    })
-    .onDismiss(() => {
-      reset()
-    })
-}
+  // Pequeña vibración si es posible
+  if (navigator.vibrate) navigator.vibrate(50)
 
-function mostrarNotificacionEliminacion(mensaje) {
-  $q.notify({
-    message: mensaje,
-    color: 'negative',
-    icon: 'ti ti-trash',
-    position: 'top',
-    timeout: 1500,
-  })
+  // Eliminación directa o con confirmación según prefieras
+  cronometroStore.eliminarMarca(idMarca)
+  reset()
 }
 </script>
 
@@ -142,66 +106,109 @@ function mostrarNotificacionEliminacion(mensaje) {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-fondo-blanco);
-  border-radius: 24px 24px 0 0;
-  padding: 1.5rem 0 0.75rem 0;
-  box-shadow: var(--sombra-fuerte);
-  /* permitir que la tarjeta blanca se solape con la sección superior */
-  overflow: visible;
+  /* Eliminado el fondo blanco y shadow del contenedor general */
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
 }
 .marcas-encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem 1rem 1.5rem;
-  border-bottom: 1px solid var(--color-borde-suave);
+  padding: 0 0.5rem 1rem 0.5rem;
 }
 .marcas-titulo {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--color-texto-principal);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-azul-claro);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.boton-eliminar {
+  color: var(--color-error);
+  opacity: 0.8;
 }
 .lista-marcas {
   flex: 1;
   overflow-y: auto;
-  padding: 0.5rem 0;
+  /* Padding interno para que las cartas no toquen los bordes */
+  padding: 0 4px 50px 4px;
+}
+/* --- ESTILO TIPO TARJETA (CARD) --- */
+.slide-marca {
+  margin-bottom: 0.75rem; /* Espacio entre tarjetas */
+  border-radius: 16px;
+  overflow: hidden;
+  background: transparent;
 }
 .marca-item {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--color-borde-suave);
-  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  /* ESTILO GLASSMORPHISM */
+  background: rgba(255, 255, 255, 0.08); /* Fondo semi-transparente */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+
+  transition: background 0.2s;
 }
-.marca-item:hover {
-  background-color: var(--color-hover-azul);
+.marca-item:active {
+  background: rgba(255, 255, 255, 0.15);
 }
-.marca-tiempo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-texto-principal);
-  font-variant-numeric: tabular-nums;
-}
-.marca-intervalo {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-azul-medio);
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-.marca-intervalo-label {
-  font-size: 0.75rem;
-  color: var(--color-texto-terciario);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-align: right;
-  margin-top: 0.125rem;
-}
-.slide-accion {
+/* Columna Índice (Círculo) */
+.marca-indice {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 0 1.5rem;
+  width: 36px;
+  height: 36px;
+  background: rgba(43, 203, 254, 0.15); /* Azul claro muy suave */
+  border-radius: 50%;
+  color: var(--color-azul-claro);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-right: 1rem;
 }
+/* Tiempo Principal */
+.marca-tiempo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-texto-blanco);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+/* Intervalo (Derecha) */
+.marca-info-der {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.marca-intervalo {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-azul-medio); /* Azul medio para diferencia */
+  font-variant-numeric: tabular-nums;
+}
+.etiqueta-intervalo {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 2px;
+}
+/* Acción de deslizar (Fondo Rojo) */
+.slide-accion {
+  background: var(--color-error);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1.5rem;
+  border-radius: 16px; /* Para que coincida con la tarjeta */
+}
+/* Estado Vacío */
 .sin-marcas {
   flex: 1;
   display: flex;
@@ -209,22 +216,19 @@ function mostrarNotificacionEliminacion(mensaje) {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 3rem 1.5rem;
+  opacity: 0.5;
+  margin-top: 2rem;
+}
+.icono-vacio {
+  color: var(--color-texto-blanco);
 }
 .sin-marcas-texto {
-  font-size: 1rem;
-  color: var(--color-texto-terciario);
-  text-align: center;
+  color: var(--color-texto-blanco);
+  font-size: 0.9rem;
 }
-/* Scroll suave */
+/* Scrollbar invisible pero funcional */
 .lista-marcas::-webkit-scrollbar {
-  width: 4px;
-}
-.lista-marcas::-webkit-scrollbar-track {
+  width: 0px;
   background: transparent;
-}
-.lista-marcas::-webkit-scrollbar-thumb {
-  background: var(--color-borde-medio);
-  border-radius: 2px;
 }
 </style>

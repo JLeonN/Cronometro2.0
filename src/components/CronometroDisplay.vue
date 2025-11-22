@@ -31,63 +31,59 @@ const cronometroStore = useCronometroStore()
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2.25rem 1rem 1.25rem 1rem;
-  gap: 1.25rem;
+  padding: 1rem;
+  gap: 1rem;
+  width: 100%;
 }
 .tiempo-principal {
-  font-size: clamp(2.8rem, 8vw, 4.5rem);
+  /* Tamaño dinámico grande */
+  font-size: clamp(3.5rem, 12vw, 5rem);
   font-weight: 700;
   color: var(--color-texto-blanco);
   font-variant-numeric: tabular-nums;
-  text-shadow: var(--sombra-media);
+  /* Sombra sutil azulada para dar profundidad */
+  text-shadow: 0 4px 12px rgba(0, 63, 131, 0.3);
   line-height: 1;
+  letter-spacing: -1px;
 }
 .estadisticas {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: var(--sombra-suave);
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1.25rem;
+  /* Efecto cristal sutil */
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
 }
 .estadistica-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 .estadistica-label {
-  font-size: 0.75rem;
-  color: var(--color-texto-blanco);
-  opacity: 0.8;
+  font-size: 0.7rem;
+  color: var(--color-azul-claro); /* Contraste sobre oscuro */
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .estadistica-valor {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-texto-blanco);
   font-variant-numeric: tabular-nums;
 }
 .estadistica-separador {
   width: 1px;
-  height: 2rem;
-  background: rgba(255, 255, 255, 0.3);
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
 }
-/* Responsive */
 @media (max-width: 360px) {
   .tiempo-principal {
-    font-size: 3.5rem;
-  }
-  .estadisticas {
-    gap: 1rem;
-    padding: 0.75rem 1rem;
-  }
-  .estadistica-valor {
-    font-size: 1rem;
+    font-size: 3rem;
   }
 }
 </style>

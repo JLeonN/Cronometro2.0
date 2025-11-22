@@ -21,6 +21,7 @@
     "@capacitor/android": "^7.4.4",
     "@capacitor/preferences": "^7.0.2",
     "@quasar/extras": "^1.16.4",
+    "@tabler/icons-vue": "^3.35.0",
     "@tabler/icons-webfont": "^3.35.0",
     "pinia": "^3.0.1",
     "quasar": "^2.16.0",
