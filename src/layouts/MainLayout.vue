@@ -49,14 +49,18 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="page-container-con-banner">
       <router-view />
     </q-page-container>
+
+    <!-- Banner de AdMob -->
+    <AdMobBanner />
   </q-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
 import SelectorIdioma from 'src/components/SelectorIdioma.vue'
 
 const drawerIzquierdoAbierto = ref(false)
@@ -81,6 +85,11 @@ function alternarDrawerIzquierdo() {
 .titulo-centrado .q-avatar {
   position: absolute;
   left: 0;
+}
+
+/* Padding inferior para que el banner no tape contenido */
+.page-container-con-banner {
+  padding-bottom: 50px;
 }
 </style>
 <style>

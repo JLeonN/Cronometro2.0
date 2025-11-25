@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- ========================================
+             ACTIVIDAD PRINCIPAL
+             ======================================== -->
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation"
             android:name=".MainActivity"
@@ -24,6 +27,9 @@
 
         </activity>
 
+        <!-- ========================================
+             FILE PROVIDER (para compartir archivos)
+             ======================================== -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -33,9 +39,19 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
+
+        <!-- ========================================
+             ADMOB - APP ID
+             ======================================== -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
     </application>
 
-    <!-- Permissions -->
-
+    <!-- ========================================
+         PERMISOS
+         ======================================== -->
+    <!-- Internet: Requerido para AdMob y funcionalidad general -->
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
