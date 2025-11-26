@@ -11,8 +11,11 @@ export const ES_PRODUCCION = false
 // IDs DE PRUEBA (Google AdMob)
 // ============================================
 const IDS_PRUEBA = {
-  // Banner adaptativo
+  // Banner adaptativo (abajo de todo)
   banner: 'ca-app-pub-3940256099942544/9214589741',
+
+  // Banner medio (300x250px) - Zona de marcas
+  bannerMedio: 'ca-app-pub-3940256099942544/9214589741',
 
   // Para futuro (interstitial, rewarded, etc.)
   intersticial: 'ca-app-pub-3940256099942544/1033173712',
@@ -23,8 +26,11 @@ const IDS_PRUEBA = {
 // IDs DE PRODUCCIÓN
 // ============================================
 const IDS_PRODUCCION = {
-  // Banner adaptativo
+  // Banner adaptativo (abajo de todo)
   banner: 'TU_ID_REAL_DE_BANNER_AQUI',
+
+  // Banner medio (300x250px) - Zona de marcas
+  bannerMedio: 'TU_ID_REAL_DE_BANNER_MEDIO_AQUI',
 
   // Para futuro
   intersticial: 'TU_ID_REAL_DE_INTERSTICIAL_AQUI',
