@@ -5,8 +5,8 @@
         <q-btn dense flat round icon="menu" @click="alternarDrawerIzquierdo" />
 
         <q-toolbar-title class="titulo-centrado">
-          <q-avatar size="28px" class="avatar-icono-personalizado">
-            <img src="public/icons/Cronometro2.0-512x512.png" alt="Cronómetro" />
+          <q-avatar size="32px">
+            <img src="/favicon.ico" alt="Cronómetro" />
           </q-avatar>
           {{ $t('layout.appName') }}
         </q-toolbar-title>
@@ -49,7 +49,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container class="page-container-con-banner">
+    <q-page-container :class="clasePaddingBanner">
       <router-view />
     </q-page-container>
 
@@ -59,15 +59,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
+import { ref, computed } from 'vue'
+import { useCronometroStore } from 'src/stores/cronometro'
 import SelectorIdioma from 'src/components/SelectorIdioma.vue'
+import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
 
+const cronometroStore = useCronometroStore()
 const drawerIzquierdoAbierto = ref(false)
 
 function alternarDrawerIzquierdo() {
   drawerIzquierdoAbierto.value = !drawerIzquierdoAbierto.value
 }
+
+// Padding dinámico según el estado del cronómetro
+const clasePaddingBanner = computed(() => {
+  if (cronometroStore.estadoCronometro === 'detenido') {
+    return 'page-container-banner-grande'
+  } else if (
+    cronometroStore.estadoCronometro === 'corriendo' ||
+    cronometroStore.estadoCronometro === 'pausado'
+  ) {
+    return 'page-container-banner-chico'
+  }
+  return 'page-container-sin-banner'
+})
 </script>
 
 <style scoped>
@@ -81,31 +96,32 @@ function alternarDrawerIzquierdo() {
   color: var(--color-texto-blanco);
   font-weight: 600;
   position: relative;
-  padding-top: 20px;
 }
 .titulo-centrado .q-avatar {
   position: absolute;
   left: 0;
 }
-/* Padding inferior para que el banner no tape contenido */
-.page-container-con-banner {
-  padding-bottom: 50px;
+
+/* Padding dinámico según el tamaño del banner */
+.page-container-banner-grande {
+  padding-bottom: 250px;
+  transition: padding-bottom 0.3s ease;
 }
+.page-container-banner-chico {
+  padding-bottom: 50px;
+  transition: padding-bottom 0.3s ease;
+}
+.page-container-sin-banner {
+  padding-bottom: 0;
+  transition: padding-bottom 0.3s ease;
+}
+</style>
+<style>
 .drawer-personalizado {
   background: linear-gradient(
     to bottom,
     var(--fondo-degradado-intenso-top),
     var(--fondo-degradado-intenso-bottom)
   ) !important;
-}
-.text-weight-bold {
-  padding-top: 20px;
-}
-.header-personalizado .q-btn {
-  margin-top: 20px;
-}
-.avatar-icono-personalizado {
-  overflow: hidden;
-  border-radius: 8px;
 }
 </style>
