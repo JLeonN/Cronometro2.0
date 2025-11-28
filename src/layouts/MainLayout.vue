@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header class="header-personalizado">
-      <q-toolbar>
+      <q-toolbar class="toolbar-con-padding">
         <q-btn dense flat round icon="menu" @click="alternarDrawerIzquierdo" />
 
         <q-toolbar-title class="titulo-centrado">
           <q-avatar size="32px">
-            <img src="/favicon.ico" alt="Cronómetro" />
+            <img src="/icons/Cronometro2.0-512x512.png" alt="Cronómetro" />
           </q-avatar>
           {{ $t('layout.appName') }}
         </q-toolbar-title>
@@ -20,7 +20,7 @@
       elevated
       class="drawer-personalizado"
     >
-      <q-list>
+      <q-list class="q-pa-md">
         <!-- Encabezado del drawer -->
         <q-item-label header class="text-weight-bold">
           {{ $t('configuracion.titulo') }}
@@ -49,7 +49,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container class="page-container-con-banner">
+    <q-page-container :class="clasePaddingBanner">
       <router-view />
     </q-page-container>
 
@@ -59,20 +59,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useCronometroStore } from 'src/stores/cronometro'
 import SelectorIdioma from 'src/components/SelectorIdioma.vue'
 import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
 
+const cronometroStore = useCronometroStore()
 const drawerIzquierdoAbierto = ref(false)
 
 function alternarDrawerIzquierdo() {
   drawerIzquierdoAbierto.value = !drawerIzquierdoAbierto.value
 }
+
+// Padding dinámico según el estado del cronómetro
+const clasePaddingBanner = computed(() => {
+  if (cronometroStore.estadoCronometro === 'detenido') {
+    return 'page-container-banner-grande'
+  } else if (
+    cronometroStore.estadoCronometro === 'corriendo' ||
+    cronometroStore.estadoCronometro === 'pausado'
+  ) {
+    return 'page-container-banner-chico'
+  }
+  return 'page-container-sin-banner'
+})
 </script>
 
 <style scoped>
 .header-personalizado {
   background: var(--color-azul-oscuro);
+}
+.toolbar-con-padding {
+  padding-top: 20px;
 }
 .titulo-centrado {
   display: flex;
@@ -85,19 +103,28 @@ function alternarDrawerIzquierdo() {
 .titulo-centrado .q-avatar {
   position: absolute;
   left: 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
-
-/* Padding fijo para el banner chico (50px) */
-.page-container-con-banner {
+/* Padding dinámico según el tamaño del banner */
+.page-container-banner-grande {
+  padding-bottom: 250px;
+  transition: padding-bottom 0.3s ease;
+}
+.page-container-banner-chico {
   padding-bottom: 50px;
+  transition: padding-bottom 0.3s ease;
 }
-</style>
-<style>
+.page-container-sin-banner {
+  padding-bottom: 0;
+  transition: padding-bottom 0.3s ease;
+}
 .drawer-personalizado {
   background: linear-gradient(
     to bottom,
     var(--fondo-degradado-intenso-top),
     var(--fondo-degradado-intenso-bottom)
   ) !important;
+  padding: 20px;
 }
 </style>
