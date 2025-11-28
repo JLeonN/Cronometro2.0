@@ -1,5 +1,9 @@
 {
   "appId": "com.yojorge.Nombredemiproyecto",
   "appName": "Cronómetro",
-  "webDir": "www"
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Preferences": {}
+  }
 }

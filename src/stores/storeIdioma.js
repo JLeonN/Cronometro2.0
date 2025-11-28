@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Preferences } from '@capacitor/preferences'
 
+const CLAVE_IDIOMA = 'idioma_app'
+
 export const useIdiomaStore = defineStore('idioma', () => {
   const idiomaActual = ref('es-419')
   const idiomaCargado = ref(false)
@@ -11,7 +13,7 @@ export const useIdiomaStore = defineStore('idioma', () => {
     try {
       console.log('🔄 Inicializando idioma...')
 
-      const { value } = await Preferences.get({ key: 'idioma' })
+      const { value } = await Preferences.get({ key: CLAVE_IDIOMA })
 
       if (value) {
         console.log('✅ Idioma encontrado en storage:', value)
@@ -21,6 +23,7 @@ export const useIdiomaStore = defineStore('idioma', () => {
 
         // Detectar idioma del dispositivo
         const idiomaDispositivo = navigator.language || navigator.userLanguage
+        console.log('📱 Idioma del dispositivo:', idiomaDispositivo)
 
         if (idiomaDispositivo.startsWith('es')) {
           idiomaActual.value = 'es-419'
@@ -46,13 +49,22 @@ export const useIdiomaStore = defineStore('idioma', () => {
     try {
       console.log('💾 Guardando idioma:', idioma)
 
+      // Primero actualizar el estado
+      idiomaActual.value = idioma
+
+      // Luego guardar en Preferences
       await Preferences.set({
-        key: 'idioma',
+        key: CLAVE_IDIOMA,
         value: idioma,
       })
 
-      idiomaActual.value = idioma
-      console.log('✅ Idioma guardado correctamente:', idioma)
+      // Verificar que se guardó correctamente
+      const verificacion = await Preferences.get({ key: CLAVE_IDIOMA })
+      console.log('✅ Verificación - Idioma guardado:', verificacion.value)
+
+      if (verificacion.value !== idioma) {
+        console.error('❌ ERROR: El idioma no se guardó correctamente!')
+      }
     } catch (error) {
       console.error('❌ Error al guardar idioma:', error)
     }
