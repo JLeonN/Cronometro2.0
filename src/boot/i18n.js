@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
-import { useConfiguracionStore } from 'src/stores/configuracion'
+import { useConfiguracionStore } from 'src/stores/storeIdioma'
 
 export default boot(async ({ app }) => {
   // Crear instancia de i18n

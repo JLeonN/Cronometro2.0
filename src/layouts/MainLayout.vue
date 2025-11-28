@@ -119,6 +119,8 @@ const clasePaddingBanner = computed(() => {
   padding-bottom: 0;
   transition: padding-bottom 0.3s ease;
 }
+</style>
+<style>
 .drawer-personalizado {
   background: linear-gradient(
     to bottom,

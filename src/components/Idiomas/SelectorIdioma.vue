@@ -34,16 +34,14 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useConfiguracionStore } from 'src/stores/configuracion'
-import { useQuasar } from 'quasar'
+import { useIdiomaStore } from 'src/stores/storeIdioma'
 import adMobRewardedInterstitialService from 'src/AdMob/AdMobRewardedInterstitial.js'
 
-const $q = useQuasar()
 const { t, locale } = useI18n()
-const configuracionStore = useConfiguracionStore()
+const idiomaStore = useIdiomaStore()
 
 const idiomaSeleccionado = computed({
-  get: () => configuracionStore.idiomaActual,
+  get: () => idiomaStore.idiomaActual,
   set: (valor) => valor,
 })
 
@@ -53,20 +51,20 @@ const opcionesIdioma = computed(() => [
 ])
 
 async function cambiarIdioma(nuevoIdioma) {
-  // 1. Cambiar el idioma (instantáneo)
-  await configuracionStore.guardarIdioma(nuevoIdioma)
-  locale.value = nuevoIdioma
+  console.log('🔄 Iniciando cambio de idioma a:', nuevoIdioma)
 
-  // 2. Mostrar notificación
-  $q.notify({
-    message: t('notificaciones.idiomaCambiado'),
-    color: 'positive',
-    icon: 'ti ti-check',
-    position: 'top',
-  })
+  // 1. Cambiar idioma en Vue i18n PRIMERO
+  locale.value = nuevoIdioma
+  console.log('✅ locale.value actualizado a:', locale.value)
+
+  // 2. Guardar en Capacitor Preferences
+  await idiomaStore.guardarIdioma(nuevoIdioma)
+  console.log('✅ Idioma guardado en store:', idiomaStore.idiomaActual)
 
   // 3. Mostrar video publicitario
+  console.log('📺 Mostrando video...')
   await adMobRewardedInterstitialService.mostrarAnuncio()
+  console.log('✅ Proceso completo')
 }
 </script>
 
