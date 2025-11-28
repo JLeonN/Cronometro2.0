@@ -1,46 +1,16 @@
 <template>
   <div v-if="bannerVisible" class="admob-banner-container">
-    <!-- Espaciador dinámico según el tamaño del banner -->
-    <div class="banner-spacer" :style="{ height: alturaBanner }"></div>
+    <!-- Espaciador fijo para el banner -->
+    <div class="banner-spacer"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob'
-import {
-  ADMOB_IDS,
-  BANNER_GRANDE_CONFIG,
-  BANNER_CHICO_CONFIG,
-  ES_PRODUCCION,
-} from '../constants/admob'
-import { useCronometroStore } from 'src/stores/cronometro'
+import { ADMOB_IDS, BANNER_CONFIG, ES_PRODUCCION } from '../constants/admob'
 
-const cronometroStore = useCronometroStore()
-
-// Estado del banner
 const bannerVisible = ref(false)
-const bannerActual = ref(null) // 'grande' o 'chico'
-
-// Altura dinámica del espaciador
-const alturaBanner = computed(() => {
-  if (bannerActual.value === 'grande') return '250px' // MEDIUM_RECTANGLE
-  if (bannerActual.value === 'chico') return '50px' // BANNER
-  return '0px'
-})
-
-// Determinar qué banner mostrar según el estado
-const tipoDebannerRequerido = computed(() => {
-  if (cronometroStore.estadoCronometro === 'detenido') {
-    return 'grande'
-  } else if (
-    cronometroStore.estadoCronometro === 'corriendo' ||
-    cronometroStore.estadoCronometro === 'pausado'
-  ) {
-    return 'chico'
-  }
-  return null
-})
 
 // Inicializar AdMob al montar el componente
 onMounted(async () => {
@@ -53,78 +23,30 @@ onMounted(async () => {
 
     console.log('✅ AdMob inicializado correctamente')
 
-    // Mostrar el banner inicial
-    await cambiarBanner(tipoDebannerRequerido.value)
+    // Mostrar el banner
+    await mostrarBanner()
   } catch (error) {
     console.error('❌ Error al inicializar AdMob:', error)
   }
 })
 
-// Observar cambios en el estado del cronómetro
-watch(tipoDebannerRequerido, async (nuevoTipo) => {
-  await cambiarBanner(nuevoTipo)
-})
-
-// Función para cambiar el banner
-async function cambiarBanner(tipo) {
-  if (!tipo) {
-    await ocultarBanner()
-    return
-  }
-
-  // Si ya está mostrando el banner correcto, no hacer nada
-  if (bannerActual.value === tipo) {
-    return
-  }
-
+// Mostrar banner chico (320x50)
+async function mostrarBanner() {
   try {
-    // Ocultar el banner actual si existe
-    if (bannerActual.value) {
-      await AdMob.hideBanner()
-      // IMPORTANTE: Delay para que AdMob procese el cambio
-      await new Promise((resolve) => setTimeout(resolve, 300))
+    const opciones = {
+      adId: ADMOB_IDS.banner,
+      adSize: BannerAdSize.BANNER,
+      position: BannerAdPosition.BOTTOM_CENTER,
+      margin: BANNER_CONFIG.margenInferior,
+      isTesting: !ES_PRODUCCION,
     }
 
-    // Mostrar el nuevo banner
-    if (tipo === 'grande') {
-      await mostrarBannerGrande()
-    } else if (tipo === 'chico') {
-      await mostrarBannerChico()
-    }
-
-    bannerActual.value = tipo
-    console.log(`✅ Banner ${tipo} mostrado`)
+    await AdMob.showBanner(opciones)
+    bannerVisible.value = true
+    console.log('✅ Banner 320x50 mostrado')
   } catch (error) {
-    console.error(`❌ Error al cambiar a banner ${tipo}:`, error)
+    console.error('❌ Error al mostrar banner:', error)
   }
-}
-
-// Mostrar banner GRANDE (300x250)
-async function mostrarBannerGrande() {
-  const opciones = {
-    adId: ADMOB_IDS.bannerMedio,
-    adSize: BannerAdSize.MEDIUM_RECTANGLE,
-    position: BannerAdPosition.BOTTOM_CENTER,
-    margin: BANNER_GRANDE_CONFIG.margenInferior,
-    isTesting: !ES_PRODUCCION,
-  }
-
-  await AdMob.showBanner(opciones)
-  bannerVisible.value = true
-}
-
-// Mostrar banner CHICO (320x50)
-async function mostrarBannerChico() {
-  const opciones = {
-    adId: ADMOB_IDS.banner,
-    adSize: BannerAdSize.BANNER,
-    position: BannerAdPosition.BOTTOM_CENTER,
-    margin: BANNER_CHICO_CONFIG.margenInferior,
-    isTesting: !ES_PRODUCCION,
-  }
-
-  await AdMob.showBanner(opciones)
-  bannerVisible.value = true
 }
 
 // Ocultar banner
@@ -132,7 +54,6 @@ async function ocultarBanner() {
   try {
     await AdMob.hideBanner()
     bannerVisible.value = false
-    bannerActual.value = null
     console.log('✅ Banner ocultado')
   } catch (error) {
     console.error('❌ Error al ocultar banner:', error)
@@ -155,10 +76,10 @@ onUnmounted(async () => {
   pointer-events: none;
 }
 
-/* Espaciador dinámico según el tamaño del banner */
+/* Espaciador fijo de 50px para el banner chico */
 .banner-spacer {
   width: 100%;
+  height: 50px;
   background: transparent;
-  transition: height 0.3s ease;
 }
 </style>

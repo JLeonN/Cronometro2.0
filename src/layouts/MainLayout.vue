@@ -49,7 +49,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container :class="clasePaddingBanner">
+    <q-page-container class="page-container-con-banner">
       <router-view />
     </q-page-container>
 
@@ -59,30 +59,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useCronometroStore } from 'src/stores/cronometro'
+import { ref } from 'vue'
 import SelectorIdioma from 'src/components/SelectorIdioma.vue'
 import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
 
-const cronometroStore = useCronometroStore()
 const drawerIzquierdoAbierto = ref(false)
 
 function alternarDrawerIzquierdo() {
   drawerIzquierdoAbierto.value = !drawerIzquierdoAbierto.value
 }
-
-// Padding dinámico según el estado del cronómetro
-const clasePaddingBanner = computed(() => {
-  if (cronometroStore.estadoCronometro === 'detenido') {
-    return 'page-container-banner-grande'
-  } else if (
-    cronometroStore.estadoCronometro === 'corriendo' ||
-    cronometroStore.estadoCronometro === 'pausado'
-  ) {
-    return 'page-container-banner-chico'
-  }
-  return 'page-container-sin-banner'
-})
 </script>
 
 <style scoped>
@@ -102,18 +87,9 @@ const clasePaddingBanner = computed(() => {
   left: 0;
 }
 
-/* Padding dinámico según el tamaño del banner */
-.page-container-banner-grande {
-  padding-bottom: 250px;
-  transition: padding-bottom 0.3s ease;
-}
-.page-container-banner-chico {
+/* Padding fijo para el banner chico (50px) */
+.page-container-con-banner {
   padding-bottom: 50px;
-  transition: padding-bottom 0.3s ease;
-}
-.page-container-sin-banner {
-  padding-bottom: 0;
-  transition: padding-bottom 0.3s ease;
 }
 </style>
 <style>
