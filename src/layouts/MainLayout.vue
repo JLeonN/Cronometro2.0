@@ -61,7 +61,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useCronometroStore } from 'src/stores/cronometro'
-import SelectorIdioma from 'src/components/SelectorIdioma.vue'
+import SelectorIdioma from 'src/components/Idiomas/SelectorIdioma.vue'
 import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
 
 const cronometroStore = useCronometroStore()

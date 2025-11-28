@@ -36,6 +36,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useConfiguracionStore } from 'src/stores/configuracion'
 import { useQuasar } from 'quasar'
+import adMobRewardedInterstitialService from 'src/AdMob/AdMobRewardedInterstitial.js'
 
 const $q = useQuasar()
 const { t, locale } = useI18n()
@@ -52,15 +53,20 @@ const opcionesIdioma = computed(() => [
 ])
 
 async function cambiarIdioma(nuevoIdioma) {
+  // 1. Cambiar el idioma (instantáneo)
   await configuracionStore.guardarIdioma(nuevoIdioma)
   locale.value = nuevoIdioma
 
+  // 2. Mostrar notificación
   $q.notify({
     message: t('notificaciones.idiomaCambiado'),
     color: 'positive',
     icon: 'ti ti-check',
     position: 'top',
   })
+
+  // 3. Mostrar video publicitario
+  await adMobRewardedInterstitialService.mostrarAnuncio()
 }
 </script>
 

@@ -6,7 +6,7 @@
  * ⚠️ IMPORTANTE: Cambiar esto a true cuando subas a producción
  * Para pruebas, dejalo en false
  */
-export const ES_PRODUCCION = true
+export const ES_PRODUCCION = false
 
 // ============================================
 // IDs DE PRUEBA (Google AdMob)
@@ -15,9 +15,8 @@ const IDS_PRUEBA = {
   // Banner chico (320x50px) - Siempre visible
   banner: 'ca-app-pub-3940256099942544/9214589741',
 
-  // Para futuro (interstitial, rewarded, etc.)
-  intersticial: 'ca-app-pub-3940256099942544/1033173712',
-  recompensado: 'ca-app-pub-3940256099942544/5224354917',
+  // Rewarded Interstitial (video largo)
+  rewardedInterstitial: 'ca-app-pub-3940256099942544/5354046379',
 }
 
 // ============================================
@@ -26,6 +25,9 @@ const IDS_PRUEBA = {
 const IDS_PRODUCCION = {
   // Banner chico (320x50px) - Siempre visible
   banner: 'ca-app-pub-7620083100302566/3673223523',
+
+  // Rewarded Interstitial (video largo) - CREAR EN ADMOB
+  rewardedInterstitial: 'ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY',
 }
 
 // ============================================
