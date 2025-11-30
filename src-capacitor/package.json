@@ -1,6 +1,6 @@
 {
   "name": "cronometro2",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Cronómetro con registro de marcas y tiempos",
   "author": "Leonardo Núñez <jorgebike.75@hotmail.com>",
   "private": true,
