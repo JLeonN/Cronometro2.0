@@ -33,11 +33,12 @@ onMounted(async () => {
 // Mostrar banner chico (320x50)
 async function mostrarBanner() {
   try {
+    const margenInferiorSeguro = obtenerMargenInferiorSeguro()
     const opciones = {
       adId: ADMOB_IDS.banner,
       adSize: BannerAdSize.BANNER,
       position: BannerAdPosition.BOTTOM_CENTER,
-      margin: BANNER_CONFIG.margenInferior,
+      margin: margenInferiorSeguro,
       isTesting: !ES_PRODUCCION,
     }
 
@@ -47,6 +48,24 @@ async function mostrarBanner() {
   } catch (error) {
     console.error('❌ Error al mostrar banner:', error)
   }
+}
+
+function obtenerMargenInferiorSeguro() {
+  if (typeof window === 'undefined') {
+    return BANNER_CONFIG.margenInferior
+  }
+
+  const medidorSafeArea = document.createElement('div')
+  medidorSafeArea.style.position = 'fixed'
+  medidorSafeArea.style.visibility = 'hidden'
+  medidorSafeArea.style.pointerEvents = 'none'
+  medidorSafeArea.style.paddingBottom = 'var(--safe-area-inferior)'
+  document.body.appendChild(medidorSafeArea)
+
+  const paddingInferior = Number.parseFloat(window.getComputedStyle(medidorSafeArea).paddingBottom)
+  medidorSafeArea.remove()
+
+  return Math.max(BANNER_CONFIG.margenInferior, Number.isFinite(paddingInferior) ? paddingInferior : 0)
 }
 
 // Ocultar banner
@@ -69,7 +88,7 @@ onUnmounted(async () => {
 <style scoped>
 .admob-banner-container {
   position: fixed;
-  bottom: 0;
+  bottom: var(--safe-area-inferior);
   left: 0;
   right: 0;
   z-index: 9999;

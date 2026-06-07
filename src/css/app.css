@@ -1,1 +1,10 @@
 /* app global css */
+@import './Variables.css';
+
+:root {
+  --safe-area-superior: env(safe-area-inset-top, 0px);
+  --safe-area-inferior: env(safe-area-inset-bottom, 0px);
+  --alto-header-visual: 48px;
+  --alto-banner-admob: 50px;
+  --espacio-inferior-seguro: calc(var(--safe-area-inferior) + var(--alto-banner-admob));
+}

@@ -184,9 +184,13 @@ const clasePaddingBanner = computed(() => {
 <style scoped>
 .header-personalizado {
   background: var(--color-azul-oscuro);
+  padding-top: var(--safe-area-superior);
 }
 .toolbar-con-padding {
-  padding-top: 20px;
+  min-height: var(--alto-header-visual);
+  height: var(--alto-header-visual);
+  padding: 0 12px;
+  align-items: center;
 }
 .titulo-centrado {
   display: flex;
@@ -195,6 +199,7 @@ const clasePaddingBanner = computed(() => {
   color: var(--color-texto-blanco);
   font-weight: 600;
   position: relative;
+  min-height: var(--alto-header-visual);
 }
 .titulo-centrado .q-avatar {
   position: absolute;
@@ -243,15 +248,15 @@ const clasePaddingBanner = computed(() => {
 }
 /* Padding dinámico según el tamaño del banner */
 .page-container-banner-grande {
-  padding-bottom: 250px;
+  padding-bottom: var(--espacio-inferior-seguro);
   transition: padding-bottom 0.3s ease;
 }
 .page-container-banner-chico {
-  padding-bottom: 50px;
+  padding-bottom: var(--espacio-inferior-seguro);
   transition: padding-bottom 0.3s ease;
 }
 .page-container-sin-banner {
-  padding-bottom: 0;
+  padding-bottom: var(--safe-area-inferior);
   transition: padding-bottom 0.3s ease;
 }
 </style>
@@ -262,6 +267,6 @@ const clasePaddingBanner = computed(() => {
     var(--fondo-degradado-intenso-top),
     var(--fondo-degradado-intenso-bottom)
   ) !important;
-  padding: 20px;
+  padding: calc(var(--safe-area-superior) + 12px) 20px calc(var(--safe-area-inferior) + 20px);
 }
 </style>

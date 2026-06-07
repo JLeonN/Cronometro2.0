@@ -29,7 +29,8 @@ import CronometroMarcas from 'src/components/CronometroMarcas.vue'
   );
   display: flex;
   flex-direction: column;
-  height: 100vh; /* O 100dvh para móviles modernos */
+  min-height: 100dvh;
+  height: 100%;
   overflow: hidden;
   color: var(--color-texto-blanco);
 }
@@ -48,7 +49,7 @@ import CronometroMarcas from 'src/components/CronometroMarcas.vue'
   display: flex;
   flex-direction: column;
   overflow: hidden; /* El scroll lo maneja el componente hijo */
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 1rem calc(1rem + var(--safe-area-inferior)) 1rem;
   width: 100%;
   max-width: 600px; /* Evita que se estire demasiado en tablets */
   margin: 0 auto;
