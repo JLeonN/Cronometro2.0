@@ -7,38 +7,39 @@
 
     <!-- Lista de marcas -->
     <q-list v-if="cronometroStore.totalMarcas > 0" class="lista-marcas">
-      <q-slide-item
-        v-for="marca in cronometroStore.marcas"
-        :key="marca.id"
-        class="slide-marca"
-        right-color="transparent"
-        @right="({ reset }) => confirmarEliminarMarca(marca.id, reset)"
-      >
-        <template #right>
-          <div class="slide-accion">
-            <IconTrashX color="white" :stroke="2" :size="24" />
-          </div>
-        </template>
+      <transition-group name="marca-expand" tag="div">
+        <q-slide-item
+          v-for="marca in cronometroStore.marcas"
+          :key="marca.id"
+          class="slide-marca"
+          right-color="transparent"
+          @right="({ reset }) => confirmarEliminarMarca(marca.id, reset)"
+        >
+          <template #right>
+            <div class="slide-accion">
+              <IconTrashX color="white" :stroke="2" :size="24" />
+            </div>
+          </template>
 
-        <div class="marca-item">
-          <div class="marca-indice">
-            <span class="numero">{{ marca.numero }}</span>
-          </div>
+          <div class="marca-item">
+            <div class="marca-indice">
+              <span class="numero">{{ marca.numero }}</span>
+            </div>
 
-          <div class="marca-info-central">
-            <div class="marca-tiempo">
-              {{ cronometroStore.formatearTiempo(marca.tiempoMarca) }}
+            <div class="marca-info-central">
+              <div class="marca-tiempo">
+                {{ cronometroStore.formatearTiempo(marca.tiempoMarca) }}
+              </div>
+            </div>
+
+            <div class="marca-info-der">
+              <div class="marca-intervalo">
+                +{{ cronometroStore.formatearTiempo(marca.intervalo) }}
+              </div>
             </div>
           </div>
-
-          <div class="marca-info-der">
-            <div class="marca-intervalo">
-              +{{ cronometroStore.formatearTiempo(marca.intervalo) }}
-            </div>
-            <div class="etiqueta-intervalo">{{ $t('cronometro.marcas.intervalo') }}</div>
-          </div>
-        </div>
-      </q-slide-item>
+        </q-slide-item>
+      </transition-group>
     </q-list>
 
     <!-- Mensaje cuando no hay marcas -->
@@ -91,6 +92,24 @@ function confirmarEliminarMarca(idMarca, reset) {
   overflow-y: auto;
   padding: 0 4px 50px 4px;
 }
+.marca-expand-enter-active {
+  transition: transform 0.25s ease-out, opacity 0.2s ease-out;
+}
+.marca-expand-enter-from {
+  transform: scaleX(0);
+  opacity: 0;
+}
+.marca-expand-enter-to {
+  transform: scaleX(1);
+  opacity: 1;
+}
+.marca-expand-leave-active {
+  transition: transform 0.2s ease-in, opacity 0.15s ease-in;
+}
+.marca-expand-leave-to {
+  transform: scaleX(0);
+  opacity: 0;
+}
 /* --- ESTILO TIPO TARJETA --- */
 .slide-marca {
   margin-bottom: 0.5rem;
@@ -140,16 +159,10 @@ function confirmarEliminarMarca(idMarca, reset) {
   justify-content: center;
 }
 .marca-intervalo {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--color-azul-medio);
   font-variant-numeric: tabular-nums;
-}
-.etiqueta-intervalo {
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  margin-top: 2px;
 }
 .slide-accion {
   background: var(--color-error);

@@ -2,6 +2,7 @@
   <div class="cronometro-display">
     <!-- Tiempo principal -->
     <div class="tiempo-principal">{{ cronometroStore.tiempoFormateado }}</div>
+    <div class="tiempo-marca-actual">{{ cronometroStore.tiempoMarcaActualFormateado }}</div>
 
     <!-- Estadísticas -->
     <div v-if="cronometroStore.totalMarcas > 0" class="estadisticas">
@@ -32,7 +33,7 @@ const cronometroStore = useCronometroStore()
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  gap: 1rem;
+  gap: 0.6rem;
   width: 100%;
 }
 .tiempo-principal {
@@ -45,6 +46,15 @@ const cronometroStore = useCronometroStore()
   text-shadow: 0 4px 12px rgba(0, 63, 131, 0.3);
   line-height: 1;
   letter-spacing: -1px;
+}
+.tiempo-marca-actual {
+  font-size: clamp(1.8rem, 7vw, 2.4rem);
+  font-weight: 600;
+  color: var(--color-azul-claro);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+  line-height: 1;
+  letter-spacing: 0.5px;
 }
 .estadisticas {
   display: flex;
