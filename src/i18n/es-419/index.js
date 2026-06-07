@@ -30,6 +30,18 @@ export default {
     idiomaCambiado: 'Idioma cambiado exitosamente',
   },
 
+  // Actualización disponible
+  actualizacion: {
+    titulo: 'Hay una actualización disponible',
+    versionInstalada: 'Tu versión',
+    versionDisponible: 'Nueva versión',
+    avisoPlayStore: 'Play Store puede demorar un poco en mostrar la última versión.',
+    novedades: 'Novedades de esta versión',
+    cancelar: 'Cancelar',
+    actualizar: 'Actualizar',
+    indicador: 'Actualización disponible',
+  },
+
   // Cronómetro
   cronometro: {
     titulo: 'CRONÓMETRO',

@@ -2,7 +2,12 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app/wrappers'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+
+const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+const URL_PLAY_STORE =
+  'https://play.google.com/store/apps/details?id=com.yojorge.Nombredemiproyecto'
 
 export default defineConfig((ctx) => {
   return {
@@ -47,7 +52,11 @@ export default defineConfig((ctx) => {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        VERSION_APP: packageJson.version,
+        URL_VERSION_REMOTA: process.env.URL_VERSION_REMOTA || '/version.json',
+        URL_PLAY_STORE: process.env.URL_PLAY_STORE || URL_PLAY_STORE,
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

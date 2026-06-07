@@ -30,6 +30,18 @@ export default {
     idiomaCambiado: 'Language changed successfully',
   },
 
+  // Available update
+  actualizacion: {
+    titulo: 'An update is available',
+    versionInstalada: 'Your version',
+    versionDisponible: 'New version',
+    avisoPlayStore: 'Play Store can take a little while to show the latest version.',
+    novedades: 'What is new in this version',
+    cancelar: 'Cancel',
+    actualizar: 'Update',
+    indicador: 'Update available',
+  },
+
   // Stopwatch
   cronometro: {
     titulo: 'STOPWATCH',
