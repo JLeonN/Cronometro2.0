@@ -12,7 +12,7 @@
 
     <!-- Botón Derecho (Marca/Stop) -->
     <q-btn
-      :disable="botonDerechoDeshabilitado"
+      v-if="mostrarBotonDerecho"
       unelevated
       class="boton-control boton-derecho"
       :class="claseBotonDerecho"
@@ -31,7 +31,13 @@
 <script setup>
 import { computed, markRaw } from 'vue'
 import { useCronometroStore } from 'src/stores/cronometro'
-import { IconPlayerPlay, IconPlayerPause, IconPlayerStop, IconFlag } from '@tabler/icons-vue'
+import {
+  IconPlayerPlay,
+  IconPlayerPause,
+  IconPlayerStop,
+  IconFlag,
+  IconTrashX,
+} from '@tabler/icons-vue'
 
 const cronometroStore = useCronometroStore()
 
@@ -58,6 +64,8 @@ const componenteIconoDerecho = computed(() => {
       return markRaw(IconFlag)
     case 'pausado':
       return markRaw(IconPlayerStop)
+    case 'detenido':
+      return cronometroStore.totalMarcas > 0 ? markRaw(IconTrashX) : null
     default:
       return null
   }
@@ -73,12 +81,11 @@ const claseBotonIzquierdo = computed(() => {
 
 const claseBotonDerecho = computed(() => {
   if (cronometroStore.estadoCronometro === 'corriendo') return 'btn-azul-claro'
-  if (cronometroStore.estadoCronometro === 'pausado') return 'btn-rojo'
-  return 'btn-deshabilitado'
+  return 'btn-rojo'
 })
 
-const botonDerechoDeshabilitado = computed(() => {
-  return cronometroStore.estadoCronometro === 'detenido'
+const mostrarBotonDerecho = computed(() => {
+  return cronometroStore.estadoCronometro !== 'detenido' || cronometroStore.totalMarcas > 0
 })
 
 // ========================================
@@ -106,6 +113,9 @@ function accionBotonDerecho() {
       break
     case 'pausado':
       cronometroStore.detener()
+      break
+    case 'detenido':
+      cronometroStore.eliminarTodasLasMarcas()
       break
   }
 }
@@ -148,10 +158,5 @@ function accionBotonDerecho() {
   background-color: rgba(214, 52, 71, 0.15) !important;
   color: var(--color-error) !important;
   border: 1px solid rgba(214, 52, 71, 0.2);
-}
-.btn-deshabilitado {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: rgba(255, 255, 255, 0.2) !important;
-  border: 1px solid transparent;
 }
 </style>

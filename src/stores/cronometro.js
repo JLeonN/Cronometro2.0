@@ -71,7 +71,7 @@ export const useCronometroStore = defineStore('cronometro', () => {
     iniciar()
   }
 
-  function detener() {
+  async function detener() {
     estadoCronometro.value = 'detenido'
     tiempoTranscurrido.value = 0
     tiempoAcumulado.value = 0
@@ -79,6 +79,7 @@ export const useCronometroStore = defineStore('cronometro', () => {
     clearInterval(idIntervalo.value)
     idIntervalo.value = null
     marcas.value = []
+    await guardarMarcasEnAlmacenamiento()
   }
 
   function guardarMarca() {
