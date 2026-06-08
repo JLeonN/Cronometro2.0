@@ -11,10 +11,6 @@
     class="selector-idioma"
     popup-content-class="menu-idioma"
   >
-    <template v-slot:prepend>
-      <q-icon name="ti ti-world" color="primary" />
-    </template>
-
     <template v-slot:option="scope">
       <q-item v-bind="scope.itemProps" class="opcion-idioma">
         <q-item-section avatar>
@@ -24,7 +20,7 @@
           <q-item-label class="texto-idioma">{{ scope.opt.label }}</q-item-label>
         </q-item-section>
         <q-item-section side v-if="scope.opt.value === idiomaSeleccionado">
-          <q-icon name="ti ti-check" color="primary" size="20px" />
+          <q-icon name="check" class="icono-seleccionado" size="20px" />
         </q-item-section>
       </q-item>
     </template>
@@ -70,18 +66,26 @@ async function cambiarIdioma(nuevoIdioma) {
 
 <style scoped>
 .selector-idioma {
-  background: var(--color-fondo-blanco);
-  border: 2px solid var(--color-azul-claro);
-  border-radius: 8px;
   transition: all 0.3s ease;
 }
-.selector-idioma:hover {
-  border-color: var(--color-azul-medio);
-  box-shadow: var(--sombra-suave);
+.selector-idioma :deep(.q-field__control) {
+  background: var(--color-azul-oscuro);
+  border-radius: 8px;
 }
-.selector-idioma:focus-within {
-  border-color: var(--color-azul-medio);
-  box-shadow: var(--sombra-media);
+.selector-idioma :deep(.q-field__control::before) {
+  border-color: var(--color-azul-claro);
+}
+.selector-idioma:hover :deep(.q-field__control::before),
+.selector-idioma:focus-within :deep(.q-field__control::before) {
+  border-color: var(--color-texto-blanco);
+}
+.selector-idioma :deep(.q-field__native),
+.selector-idioma :deep(.q-field__input) {
+  color: var(--color-texto-blanco);
+  font-weight: 500;
+}
+.selector-idioma :deep(.q-field__append) {
+  color: var(--color-azul-claro);
 }
 .emoji-bandera {
   font-size: 28px;
@@ -91,22 +95,28 @@ async function cambiarIdioma(nuevoIdioma) {
   font-weight: 500;
   color: var(--color-texto-principal);
 }
+</style>
+<style>
 .menu-idioma {
-  background: var(--color-fondo-blanco) !important;
-  border: 2px solid var(--color-azul-claro) !important;
+  background: var(--color-azul-oscuro) !important;
+  border: 1px solid var(--color-azul-claro) !important;
   border-radius: 8px !important;
   box-shadow: var(--sombra-fuerte) !important;
   margin-top: 4px !important;
 }
 .menu-idioma .opcion-idioma {
-  min-height: 64px;
-  padding: 12px 16px;
-  transition: all 0.2s ease;
+  min-height: 56px;
+  padding: 10px 14px;
+  color: var(--color-texto-blanco);
+  transition: background 0.2s ease;
 }
-.menu-idioma .opcion-idioma:hover {
-  background: var(--color-hover-azul) !important;
-  transform: translateX(4px);
+.menu-idioma .texto-idioma {
+  color: var(--color-texto-blanco);
 }
+.menu-idioma .icono-seleccionado {
+  color: var(--color-azul-claro);
+}
+.menu-idioma .opcion-idioma:hover,
 .menu-idioma .opcion-idioma:active {
   background: var(--color-activo-azul) !important;
 }

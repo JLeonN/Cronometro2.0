@@ -2,5 +2,25 @@
   "versionDisponible": "2.1.2",
   "urlPlayStore": "https://play.google.com/store/apps/details?id=com.yojorge.Nombredemiproyecto",
   "mostrarActualizacion": false,
-  "cambios": []
+  "cambios": [
+    {
+      "apartado": "Cronómetro",
+      "novedades": [
+        "Mejoramos la visualización y el cálculo de las marcas.",
+        "Agregamos un reloj secundario para el intervalo actual.",
+        "Corregimos el reinicio y borrado de las marcas."
+      ]
+    },
+    {
+      "apartado": "Diseño y navegación",
+      "novedades": [
+        "Mejoramos el fondo, el contraste y el desplazamiento de la lista.",
+        "Adaptamos la pantalla a las barras nativas del celular."
+      ]
+    },
+    {
+      "apartado": "Actualizaciones",
+      "novedades": ["Agregamos el nuevo modal de actualización."]
+    }
+  ]
 }

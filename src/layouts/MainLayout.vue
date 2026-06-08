@@ -46,7 +46,7 @@
         <!-- Sección de idioma -->
         <q-item>
           <q-item-section avatar>
-            <q-icon class="ti ti-language" color="primary" />
+            <q-icon class="ti ti-language icono-idioma-drawer" />
           </q-item-section>
 
           <q-item-section>
@@ -276,5 +276,9 @@ const clasePaddingBanner = computed(() => {
 }
 .drawer-personalizado .q-separator {
   background: rgba(255, 255, 255, 0.18);
+}
+.drawer-personalizado .icono-idioma-drawer {
+  color: var(--color-azul-claro);
+  font-size: 26px;
 }
 </style>
