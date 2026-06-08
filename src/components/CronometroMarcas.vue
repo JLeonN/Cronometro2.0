@@ -7,7 +7,7 @@
 
     <!-- Lista de marcas -->
     <q-list v-if="cronometroStore.totalMarcas > 0" class="lista-marcas">
-      <transition-group name="marca-expand" tag="div">
+      <transition-group name="marca-expand" tag="div" class="marcas-contenido">
         <q-slide-item
           v-for="marca in cronometroStore.marcas"
           :key="marca.id"
@@ -68,6 +68,7 @@ function confirmarEliminarMarca(idMarca, reset) {
 <style scoped>
 .cronometro-marcas {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   background: transparent;
@@ -83,14 +84,25 @@ function confirmarEliminarMarca(idMarca, reset) {
 .marcas-titulo {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-azul-claro);
+  color: var(--color-texto-blanco);
   text-transform: uppercase;
   letter-spacing: 1px;
+  opacity: 0.8;
 }
 .lista-marcas {
   flex: 1;
+  min-height: 0;
+  height: 100%;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   padding: 0 4px 50px 4px;
+}
+.marcas-contenido {
+  min-height: min-content;
 }
 .marca-expand-enter-active {
   transition: transform 0.25s ease-out, opacity 0.2s ease-out;
@@ -123,9 +135,9 @@ function confirmarEliminarMarca(idMarca, reset) {
   justify-content: space-between;
   padding: 0.75rem 1rem;
   /* Glassmorphism */
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   transition: background 0.2s;
 }
@@ -161,8 +173,9 @@ function confirmarEliminarMarca(idMarca, reset) {
 .marca-intervalo {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--color-azul-medio);
+  color: var(--color-azul-claro);
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 8px rgba(0, 63, 131, 0.35);
 }
 .slide-accion {
   background: var(--color-error);

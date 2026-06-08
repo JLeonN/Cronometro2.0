@@ -21,15 +21,10 @@ import CronometroMarcas from 'src/components/CronometroMarcas.vue'
 
 <style scoped>
 .pagina-principal {
-  /* Fondo completo oscuro/azulado intenso */
-  background: radial-gradient(
-    circle at top right,
-    var(--color-azul-medio) 0%,
-    var(--color-azul-oscuro) 60%
-  );
+  background: var(--fondo-cronometro-principal);
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  min-height: 0 !important;
   height: 100%;
   overflow: hidden;
   color: var(--color-texto-blanco);
@@ -46,6 +41,7 @@ import CronometroMarcas from 'src/components/CronometroMarcas.vue'
 }
 .seccion-inferior {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden; /* El scroll lo maneja el componente hijo */

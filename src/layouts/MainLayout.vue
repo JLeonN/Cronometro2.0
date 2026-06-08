@@ -262,11 +262,19 @@ const clasePaddingBanner = computed(() => {
 </style>
 <style>
 .drawer-personalizado {
-  background: linear-gradient(
-    to bottom,
-    var(--fondo-degradado-intenso-top),
-    var(--fondo-degradado-intenso-bottom)
-  ) !important;
+  background: var(--fondo-cronometro-drawer) !important;
+  color: var(--color-texto-blanco);
   padding: calc(var(--safe-area-superior) + 12px) 20px calc(var(--safe-area-inferior) + 20px);
+}
+.drawer-personalizado .q-item-label,
+.drawer-personalizado .q-item__label {
+  color: var(--color-texto-blanco);
+}
+.drawer-personalizado .q-item__label--caption {
+  color: var(--color-texto-blanco);
+  opacity: 0.78;
+}
+.drawer-personalizado .q-separator {
+  background: rgba(255, 255, 255, 0.18);
 }
 </style>
