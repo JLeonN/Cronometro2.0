@@ -14,6 +14,8 @@
     "generar-version": "node Scripts/GenerarVersionJson.js",
     "prebuild": "npm run generar-version",
     "build": "quasar build -m capacitor -T android",
+    "androidReleaseConSimbolos": "npm run build && npm run cap:sync && cd src-capacitor/android && gradlew.bat :app:bundleRelease",
+    "cel": "npm run androidReleaseConSimbolos && cd src-capacitor && npx cap open android",
     "generar-apk": "npm run build && npm run cap:sync && npm run abrir-android",
     "abrir-android": "cd src-capacitor && npx cap open android",
     "cap:sync": "cd src-capacitor && npx cap sync android",
