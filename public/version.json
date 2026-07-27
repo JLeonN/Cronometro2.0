@@ -4,24 +4,9 @@
   "mostrarActualizacion": true,
   "cambios": [
     {
-      "apartado": "Cronómetro",
+      "apartado": "Compatibilidad",
       "novedades": [
-        "Mejoramos la visualización y el cálculo de las marcas.",
-        "Agregamos un reloj secundario para el intervalo actual.",
-        "Corregimos el reinicio y borrado de las marcas."
-      ]
-    },
-    {
-      "apartado": "Diseño y navegación",
-      "novedades": [
-        "Mejoramos el fondo, el contraste y el desplazamiento de la lista.",
-        "Adaptamos la pantalla a las barras nativas del celular."
-      ]
-    },
-    {
-      "apartado": "Actualizaciones",
-      "novedades": [
-        "Agregamos el nuevo modal de actualización."
+        "Mejoramos la compatibilidad con las versiones más recientes de Android."
       ]
     }
   ]
