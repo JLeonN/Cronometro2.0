@@ -8,6 +8,7 @@ const rutaPackageJson = resolve(raizProyecto, 'package.json')
 const rutaVersionJson = resolve(raizProyecto, 'public', 'version.json')
 const URL_PLAY_STORE_POR_DEFECTO =
   'https://play.google.com/store/apps/details?id=com.yojorge.Nombredemiproyecto'
+const CODIGOS_IDIOMA = ['es-419', 'en-US']
 
 function leerJson(rutaArchivo, valorPorDefecto) {
   try {
@@ -19,7 +20,13 @@ function leerJson(rutaArchivo, valorPorDefecto) {
 
 const packageJson = leerJson(rutaPackageJson, {})
 const versionJsonActual = leerJson(rutaVersionJson, {})
-const cambiosActuales = Array.isArray(versionJsonActual.cambios) ? versionJsonActual.cambios : []
+const cambiosActuales =
+  versionJsonActual.cambios && typeof versionJsonActual.cambios === 'object'
+    ? versionJsonActual.cambios
+    : {}
+const cambiosPorIdioma = Object.fromEntries(
+  CODIGOS_IDIOMA.map((codigoIdioma) => [codigoIdioma, cambiosActuales[codigoIdioma] ?? []]),
+)
 
 const versionJsonNuevo = {
   ...versionJsonActual,
@@ -29,7 +36,7 @@ const versionJsonNuevo = {
     typeof versionJsonActual.mostrarActualizacion === 'boolean'
       ? versionJsonActual.mostrarActualizacion
       : false,
-  cambios: cambiosActuales,
+  cambios: cambiosPorIdioma,
 }
 
 writeFileSync(rutaVersionJson, `${JSON.stringify(versionJsonNuevo, null, 2)}\n`, 'utf8')

@@ -126,8 +126,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useCronometroStore } from 'src/stores/cronometro'
+import { useIdiomaStore } from 'src/stores/storeIdioma'
 import SelectorIdioma from 'src/components/Idiomas/SelectorIdioma.vue'
 import AdMobBanner from 'src/AdMob/AdMobBanner.vue'
 import {
@@ -136,6 +137,7 @@ import {
 } from 'src/components/Actualizacion/ServicioActualizacionApp'
 
 const cronometroStore = useCronometroStore()
+const idiomaStore = useIdiomaStore()
 const drawerIzquierdoAbierto = ref(false)
 const hayActualizacionDisponible = ref(false)
 const mostrarModalActualizacion = ref(false)
@@ -149,7 +151,7 @@ function alternarDrawerIzquierdo() {
 }
 
 async function verificarActualizacion() {
-  const estadoActualizacion = await obtenerEstadoActualizacion()
+  const estadoActualizacion = await obtenerEstadoActualizacion(idiomaStore.idiomaActual)
 
   hayActualizacionDisponible.value = estadoActualizacion.hayActualizacion
   mostrarModalActualizacion.value = estadoActualizacion.hayActualizacion
@@ -166,6 +168,13 @@ function irAPlayStore() {
 onMounted(() => {
   verificarActualizacion()
 })
+
+watch(
+  () => idiomaStore.idiomaActual,
+  () => {
+    verificarActualizacion()
+  },
+)
 
 // Padding dinámico según el estado del cronómetro
 const clasePaddingBanner = computed(() => {

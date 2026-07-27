@@ -4,6 +4,7 @@ const URL_PLAY_STORE_POR_DEFECTO =
 const URL_VERSION_REMOTA = process.env.URL_VERSION_REMOTA || '/version.json'
 const VERSION_INSTALADA = process.env.VERSION_APP || '0.0.0'
 const TIEMPO_MAXIMO_CONSULTA_MS = 8000
+const IDIOMA_PREDETERMINADO = 'es-419'
 
 export function crearEstadoSinActualizacion() {
   return {
@@ -40,7 +41,20 @@ function compararVersiones(versionActual, versionDisponible) {
   return 0
 }
 
-export function normalizarCambios(cambios) {
+export function normalizarCambios(cambios, idiomaActual = IDIOMA_PREDETERMINADO) {
+  if (Array.isArray(cambios)) {
+    return normalizarGrupos(cambios)
+  }
+
+  if (!cambios || typeof cambios !== 'object') {
+    return []
+  }
+
+  const cambiosDelIdioma = cambios[idiomaActual] ?? cambios[IDIOMA_PREDETERMINADO]
+  return normalizarGrupos(cambiosDelIdioma)
+}
+
+function normalizarGrupos(cambios) {
   if (!Array.isArray(cambios)) {
     return []
   }
@@ -73,7 +87,7 @@ export function normalizarCambios(cambios) {
     .filter(Boolean)
 }
 
-export async function obtenerEstadoActualizacion() {
+export async function obtenerEstadoActualizacion(idiomaActual = IDIOMA_PREDETERMINADO) {
   const controlador = new AbortController()
   const timeoutConsulta = window.setTimeout(() => controlador.abort(), TIEMPO_MAXIMO_CONSULTA_MS)
 
@@ -101,7 +115,7 @@ export async function obtenerEstadoActualizacion() {
       versionInstalada: VERSION_INSTALADA,
       versionDisponible,
       urlPlayStore: versionRemota.urlPlayStore || URL_PLAY_STORE_POR_DEFECTO,
-      cambios: normalizarCambios(versionRemota.cambios),
+      cambios: normalizarCambios(versionRemota.cambios, idiomaActual),
     }
   } catch {
     return crearEstadoSinActualizacion()

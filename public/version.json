@@ -2,12 +2,22 @@
   "versionDisponible": "2.1.3",
   "urlPlayStore": "https://play.google.com/store/apps/details?id=com.yojorge.Nombredemiproyecto",
   "mostrarActualizacion": true,
-  "cambios": [
-    {
-      "apartado": "Compatibilidad",
-      "novedades": [
-        "Mejoramos la compatibilidad con las versiones más recientes de Android."
-      ]
-    }
-  ]
+  "cambios": {
+    "es-419": [
+      {
+        "apartado": "Compatibilidad",
+        "novedades": [
+          "Mejoramos la compatibilidad con las versiones más recientes de Android."
+        ]
+      }
+    ],
+    "en-US": [
+      {
+        "apartado": "Compatibility",
+        "novedades": [
+          "Improved compatibility with the latest Android versions."
+        ]
+      }
+    ]
+  }
 }
