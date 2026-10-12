@@ -87,13 +87,24 @@ export default {
     pestanas: {
       etiqueta: 'Marcas y guardado',
       guardar: 'Guardar lista',
+      actualizar: 'Actualizar lista',
+    },
+    continuacion: {
+      titulo: 'Continuando «{titulo}»',
+      sinCambios: 'Aún no hay marcas nuevas.',
+      pendiente: '1 marca nueva sin guardar. Detén el cronómetro y abre «Actualizar lista».',
+      pendientes: '{cantidad} marcas nuevas sin guardar. Detén el cronómetro y abre «Actualizar lista».',
+      pendienteDetenidas: '1 marca nueva sin guardar. Abre «Actualizar lista».',
+      pendientesDetenidas: '{cantidad} marcas nuevas sin guardar. Abre «Actualizar lista».',
     },
     formulario: {
       titulo: 'Título de la lista *',
       tituloObligatorio: 'Escribe un título para guardar la lista',
       descripcion: 'Descripción (opcional)',
       ayuda: 'Se guardarán todas las marcas actuales. Después, el cronómetro quedará en cero.',
+      ayudaActualizacion: 'Las marcas nuevas se añadirán a esta lista. El cronómetro quedará en cero.',
       confirmar: 'Guardar',
+      actualizar: 'Actualizar',
       cancelar: 'Cancelar',
       reintentarLimpieza: 'Terminar guardado',
     },
@@ -108,15 +119,18 @@ export default {
     detalle: {
       noEncontrada: 'No encontramos esta lista.',
       notaMarca: 'Nota para la marca {numero}',
+      continuarMarcas: 'Continuar marcas',
     },
     mensajes: {
       guardada: 'Lista guardada',
+      actualizada: 'Lista actualizada',
       eliminada: 'Lista eliminada',
       errorCargar: 'No se pudieron cargar las listas guardadas.',
       errorGuardar: 'No se pudo guardar la lista. Tus marcas siguen disponibles.',
       errorLimpieza: 'La lista se guardó, pero no se pudo limpiar el cronómetro. Toca «Terminar guardado».',
       errorEliminar: 'No se pudo eliminar la lista.',
       errorNota: 'No se pudo guardar la nota. Inténtalo de nuevo.',
+      errorContinuar: 'No se pudo continuar esta lista. Inténtalo de nuevo.',
     },
   },
 }

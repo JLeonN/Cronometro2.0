@@ -87,13 +87,24 @@ export default {
     pestanas: {
       etiqueta: 'Laps and saving',
       guardar: 'Save list',
+      actualizar: 'Update list',
+    },
+    continuacion: {
+      titulo: 'Continuing “{titulo}”',
+      sinCambios: 'No new laps yet.',
+      pendiente: '1 new lap not saved. Stop the stopwatch and open “Update list”.',
+      pendientes: '{cantidad} new laps not saved. Stop the stopwatch and open “Update list”.',
+      pendienteDetenidas: '1 new lap not saved. Open “Update list”.',
+      pendientesDetenidas: '{cantidad} new laps not saved. Open “Update list”.',
     },
     formulario: {
       titulo: 'List title *',
       tituloObligatorio: 'Enter a title to save the list',
       descripcion: 'Description (optional)',
       ayuda: 'All current laps will be saved. The stopwatch will then reset to zero.',
+      ayudaActualizacion: 'New laps will be added to this list. The stopwatch will reset to zero.',
       confirmar: 'Save',
+      actualizar: 'Update',
       cancelar: 'Cancel',
       reintentarLimpieza: 'Finish saving',
     },
@@ -108,15 +119,18 @@ export default {
     detalle: {
       noEncontrada: 'We could not find this list.',
       notaMarca: 'Note for lap {numero}',
+      continuarMarcas: 'Continue laps',
     },
     mensajes: {
       guardada: 'List saved',
+      actualizada: 'List updated',
       eliminada: 'List deleted',
       errorCargar: 'Saved lists could not be loaded.',
       errorGuardar: 'The list could not be saved. Your laps are still available.',
       errorLimpieza: 'The list was saved, but the stopwatch could not be cleared. Tap “Finish saving”.',
       errorEliminar: 'The list could not be deleted.',
       errorNota: 'The note could not be saved. Please try again.',
+      errorContinuar: 'This list could not be continued. Please try again.',
     },
   },
 }

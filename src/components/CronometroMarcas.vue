@@ -7,6 +7,7 @@
           v-for="marca in cronometroStore.marcas"
           :key="marca.id"
           class="slide-marca"
+          :disable="cronometroStore.listaEnContinuacion?.idsMarcasOriginales.includes(marca.id)"
           right-color="transparent"
           @right="({ reset }) => confirmarEliminarMarca(marca.id, reset)"
         >

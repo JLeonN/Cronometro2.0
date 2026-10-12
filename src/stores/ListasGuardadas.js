@@ -122,6 +122,32 @@ export const useListasGuardadasStore = defineStore('listasGuardadas', () => {
     })
   }
 
+  function agregarMarcasALista(idLista, marcasNuevas) {
+    if (!Array.isArray(marcasNuevas) || marcasNuevas.length === 0) {
+      throw new Error('No hay marcas nuevas para guardar')
+    }
+    return ejecutarCambio((listasActuales) => {
+      const lista = listasActuales.find((elemento) => elemento.id === idLista)
+      if (!lista) throw new Error('La lista no existe')
+
+      const idsGuardados = new Set(lista.marcas.map((marca) => marca.id))
+      const pendientes = marcasNuevas.filter((marca) => !idsGuardados.has(marca.id))
+      const nuevasMarcas = pendientes.map((marca, indice) => ({
+        id: marca.id,
+        numero: lista.marcas.length + pendientes.length - indice,
+        tiempoMarca: marca.tiempoMarca,
+        intervalo: marca.intervalo,
+        nota: '',
+      }))
+      const nuevasListas = listasActuales.map((elemento) =>
+        elemento.id === idLista
+          ? { ...elemento, marcas: [...nuevasMarcas, ...elemento.marcas] }
+          : elemento,
+      )
+      return { nuevasListas, resultado: nuevasListas.find((elemento) => elemento.id === idLista) }
+    })
+  }
+
   return {
     listas,
     cargando,
@@ -131,5 +157,6 @@ export const useListasGuardadasStore = defineStore('listasGuardadas', () => {
     guardarLista,
     eliminarLista,
     guardarNotaMarca,
+    agregarMarcasALista,
   }
 })

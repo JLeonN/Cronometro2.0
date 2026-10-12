@@ -5,7 +5,19 @@
       <CronometroControles :bloqueado="cronometroStore.cargandoMarcas || guardando || listaYaGuardada" />
     </div>
     <div class="seccion-inferior">
-      <div class="pestanas-marcas" role="tablist" :aria-label="$t('listas.pestanas.etiqueta')">
+      <div v-if="continuacionActiva" class="aviso-continuacion" role="status">
+        <strong>{{ $t('listas.continuacion.titulo', { titulo: tituloListaContinuada }) }}</strong>
+        <span v-if="cronometroStore.marcasNuevas.length > 0">
+          {{ $t(claveAvisoPendiente, { cantidad: cronometroStore.marcasNuevas.length }) }}
+        </span>
+        <span v-else>{{ $t('listas.continuacion.sinCambios') }}</span>
+      </div>
+      <div
+        v-if="cronometroStore.totalMarcas > 0"
+        class="pestanas-marcas"
+        role="tablist"
+        :aria-label="$t('listas.pestanas.etiqueta')"
+      >
         <button
           id="pestana-marcas"
           type="button"
@@ -28,15 +40,15 @@
           :disabled="(!puedeGuardarLista && !listaYaGuardada) || guardando"
           @click="pestanaActiva = 'guardar'"
         >
-          {{ $t('listas.pestanas.guardar') }}
+          {{ $t(continuacionActiva ? 'listas.pestanas.actualizar' : 'listas.pestanas.guardar') }}
         </button>
       </div>
       <div
         v-show="pestanaActiva === 'marcas'"
         id="panel-marcas"
         class="panel-marcas"
-        role="tabpanel"
-        aria-labelledby="pestana-marcas"
+        :role="cronometroStore.totalMarcas > 0 ? 'tabpanel' : undefined"
+        :aria-labelledby="cronometroStore.totalMarcas > 0 ? 'pestana-marcas' : undefined"
       >
         <CronometroMarcas />
       </div>
@@ -48,7 +60,9 @@
         aria-labelledby="pestana-guardar"
         @submit.prevent="guardarListaActual"
       >
+        <p v-if="continuacionActiva" class="titulo-continuacion">{{ tituloListaContinuada }}</p>
         <q-input
+          v-else
           v-model="tituloLista"
           dark
           outlined
@@ -60,6 +74,7 @@
           @update:model-value="errorTitulo = false"
         />
         <q-input
+          v-if="!continuacionActiva"
           v-model="descripcionLista"
           dark
           outlined
@@ -69,17 +84,17 @@
           :disable="guardando || listaYaGuardada"
           :label="$t('listas.formulario.descripcion')"
         />
-        <p class="formulario-ayuda">{{ $t('listas.formulario.ayuda') }}</p>
+        <p class="formulario-ayuda">{{ $t(continuacionActiva ? 'listas.formulario.ayudaActualizacion' : 'listas.formulario.ayuda') }}</p>
         <p v-if="errorLimpieza" class="formulario-error">{{ $t('listas.mensajes.errorLimpieza') }}</p>
         <div class="formulario-acciones">
           <button
             type="submit"
             class="boton-formulario boton-guardar"
             :disabled="guardando"
-            :aria-label="listaYaGuardada ? $t('listas.formulario.reintentarLimpieza') : $t('listas.formulario.confirmar')"
+            :aria-label="listaYaGuardada ? $t('listas.formulario.reintentarLimpieza') : $t(continuacionActiva ? 'listas.formulario.actualizar' : 'listas.formulario.confirmar')"
           >
             <IconCheck :size="24" :stroke="2" />
-            <span>{{ listaYaGuardada ? $t('listas.formulario.reintentarLimpieza') : $t('listas.formulario.confirmar') }}</span>
+            <span>{{ listaYaGuardada ? $t('listas.formulario.reintentarLimpieza') : $t(continuacionActiva ? 'listas.formulario.actualizar' : 'listas.formulario.confirmar') }}</span>
           </button>
           <button
             type="button"
@@ -119,12 +134,22 @@ const errorTitulo = ref(false)
 const guardando = ref(false)
 const listaYaGuardada = ref(false)
 const errorLimpieza = ref(false)
+const continuacionActiva = computed(() => Boolean(cronometroStore.listaEnContinuacion))
+const tituloListaContinuada = computed(() =>
+  listasStore.listas.find((lista) => lista.id === cronometroStore.listaEnContinuacion?.idLista)?.titulo ?? '',
+)
+const claveAvisoPendiente = computed(() => {
+  const sufijo = cronometroStore.marcasNuevas.length === 1 ? 'pendiente' : 'pendientes'
+  return `listas.continuacion.${sufijo}${cronometroStore.estadoCronometro === 'detenido' ? 'Detenidas' : ''}`
+})
 
 const puedeGuardarLista = computed(
   () =>
     !cronometroStore.cargandoMarcas &&
     cronometroStore.estadoCronometro === 'detenido' &&
-    cronometroStore.totalMarcas > 0,
+    (continuacionActiva.value
+      ? cronometroStore.marcasNuevas.length > 0
+      : cronometroStore.totalMarcas > 0),
 )
 
 function limpiarFormulario() {
@@ -141,19 +166,27 @@ function cancelarFormulario() {
 
 async function guardarListaActual() {
   if (guardando.value || (!puedeGuardarLista.value && !listaYaGuardada.value)) return
-  if (!listaYaGuardada.value && !tituloLista.value.trim()) {
+  if (!listaYaGuardada.value && !continuacionActiva.value && !tituloLista.value.trim()) {
     errorTitulo.value = true
     return
   }
 
+  const actualizandoLista = continuacionActiva.value
   guardando.value = true
   try {
     if (!listaYaGuardada.value) {
-      await listasStore.guardarLista({
-        titulo: tituloLista.value,
-        descripcion: descripcionLista.value,
-        marcas: cronometroStore.marcas,
-      })
+      if (continuacionActiva.value) {
+        await listasStore.agregarMarcasALista(
+          cronometroStore.listaEnContinuacion.idLista,
+          cronometroStore.marcasNuevas,
+        )
+      } else {
+        await listasStore.guardarLista({
+          titulo: tituloLista.value,
+          descripcion: descripcionLista.value,
+          marcas: cronometroStore.marcas,
+        })
+      }
       listaYaGuardada.value = true
     }
     await cronometroStore.reiniciarSesion()
@@ -161,7 +194,7 @@ async function guardarListaActual() {
     errorLimpieza.value = false
     limpiarFormulario()
     pestanaActiva.value = 'marcas'
-    quasar.notify({ type: 'positive', message: t('listas.mensajes.guardada') })
+    quasar.notify({ type: 'positive', message: t(actualizandoLista ? 'listas.mensajes.actualizada' : 'listas.mensajes.guardada') })
   } catch (error) {
     console.error('Error al guardar la lista:', error)
     errorLimpieza.value = listaYaGuardada.value
@@ -215,6 +248,20 @@ watch(
   max-width: 600px;
   margin: 0 auto;
 }
+.aviso-continuacion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--color-azul-claro);
+  border-radius: 10px;
+  color: var(--color-texto-blanco);
+  font-size: 0.8rem;
+}
+.aviso-continuacion span {
+  color: var(--color-azul-claro);
+}
 .pestanas-marcas {
   display: flex;
   gap: 0.35rem;
@@ -260,6 +307,11 @@ watch(
   margin: 0;
   color: var(--color-azul-claro);
   font-size: 0.85rem;
+}
+.titulo-continuacion {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 .formulario-error {
   margin: 0;

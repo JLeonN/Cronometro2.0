@@ -26,6 +26,14 @@
           <p class="cantidad-marcas">{{ $t(lista.marcas.length === 1 ? 'listas.unaMarca' : 'listas.cantidadMarcas', { cantidad: lista.marcas.length }) }}</p>
         </div>
 
+        <q-btn
+          unelevated
+          class="boton-principal boton-continuar"
+          :label="$t('listas.detalle.continuarMarcas')"
+          :loading="continuando"
+          @click="continuarMarcas"
+        />
+
         <div class="marcas-guardadas">
           <div v-for="marca in lista.marcas" :key="marca.id" class="marca-guardada">
             <div class="tiempos-marca">
@@ -52,14 +60,15 @@
 </template>
 
 <script setup>
-import { computed, reactive, watch } from 'vue'
-import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { computed, reactive, ref, watch } from 'vue'
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { useCronometroStore } from 'src/stores/cronometro'
 import { useListasGuardadasStore } from 'src/stores/ListasGuardadas'
 
 const route = useRoute()
+const router = useRouter()
 const quasar = useQuasar()
 const { t, locale } = useI18n()
 const cronometroStore = useCronometroStore()
@@ -67,6 +76,7 @@ const listasStore = useListasGuardadasStore()
 const borradoresNotas = reactive({})
 const guardandoNotas = reactive({})
 const promesasGuardado = new Map()
+const continuando = ref(false)
 
 const lista = computed(() => listasStore.listas.find((elemento) => elemento.id === route.params.id))
 
@@ -83,6 +93,22 @@ watch(
 
 function formatearFecha(fecha) {
   return new Intl.DateTimeFormat(locale.value, { dateStyle: 'long' }).format(new Date(fecha))
+}
+
+async function continuarMarcas() {
+  if (!lista.value || continuando.value) return
+  continuando.value = true
+  try {
+    const notasGuardadas = await Promise.all(lista.value.marcas.map((marca) => guardarNota(marca.id)))
+    if (!notasGuardadas.every(Boolean)) return
+    await cronometroStore.continuarLista(lista.value)
+    await router.push('/')
+  } catch (error) {
+    console.error('Error al continuar las marcas:', error)
+    quasar.notify({ type: 'negative', message: t('listas.mensajes.errorContinuar') })
+  } finally {
+    continuando.value = false
+  }
 }
 
 async function guardarNota(idMarca) {
@@ -152,6 +178,9 @@ onBeforeRouteLeave(async () => {
 }
 .resumen-lista {
   margin-bottom: 1.25rem;
+}
+.boton-continuar {
+  margin-bottom: 1rem;
 }
 .resumen-lista h1 {
   margin: 0 0 0.25rem;
