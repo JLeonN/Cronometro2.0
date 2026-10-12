@@ -1,21 +1,25 @@
 {
-  "versionDisponible": "2.1.4",
+  "versionDisponible": "2.1.5",
   "urlPlayStore": "https://play.google.com/store/apps/details?id=com.yojorge.Nombredemiproyecto",
   "mostrarActualizacion": true,
   "cambios": {
     "es-419": [
       {
-        "apartado": "Compatibilidad",
+        "apartado": "Listas guardadas",
         "novedades": [
-          "Mejoramos la compatibilidad con las versiones más recientes de Android."
+          "Guarda tus marcas en listas con título y descripción para consultarlas después.",
+          "Revisa los tiempos de cada lista y agrega una nota a cada marca.",
+          "Continúa una lista guardada para registrar más marcas cuando quieras."
         ]
       }
     ],
     "en-US": [
       {
-        "apartado": "Compatibility",
+        "apartado": "Saved lists",
         "novedades": [
-          "Improved compatibility with the latest Android versions."
+          "Save your laps in lists with a title and description to review them later.",
+          "Review the times in each list and add a note to each lap.",
+          "Continue a saved list to record more laps whenever you want."
         ]
       }
     ]
