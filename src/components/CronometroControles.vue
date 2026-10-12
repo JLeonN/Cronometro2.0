@@ -3,6 +3,7 @@
     <!-- Botón Izquierdo (Play/Pausa/Reanudar) -->
     <q-btn
       unelevated
+      :disable="bloqueado"
       class="boton-control boton-izquierdo"
       :class="claseBotonIzquierdo"
       @click="accionBotonIzquierdo"
@@ -14,6 +15,7 @@
     <q-btn
       v-if="mostrarBotonDerecho"
       unelevated
+      :disable="bloqueado"
       class="boton-control boton-derecho"
       :class="claseBotonDerecho"
       @click="accionBotonDerecho"
@@ -38,6 +40,10 @@ import {
   IconFlag,
   IconTrashX,
 } from '@tabler/icons-vue'
+
+defineProps({
+  bloqueado: { type: Boolean, default: false },
+})
 
 const cronometroStore = useCronometroStore()
 

@@ -1,10 +1,5 @@
 <template>
   <div class="cronometro-marcas">
-    <!-- Encabezado -->
-    <div v-if="cronometroStore.totalMarcas > 0" class="marcas-encabezado">
-      <div class="marcas-titulo">{{ $t('cronometro.marcas.titulo') }}</div>
-    </div>
-
     <!-- Lista de marcas -->
     <q-list v-if="cronometroStore.totalMarcas > 0" class="lista-marcas">
       <transition-group name="marca-expand" tag="div" class="marcas-contenido">
@@ -74,20 +69,6 @@ function confirmarEliminarMarca(idMarca, reset) {
   background: transparent;
   width: 100%;
   overflow: hidden;
-}
-.marcas-encabezado {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 0 0.5rem 0.5rem 0.5rem;
-}
-.marcas-titulo {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-texto-blanco);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.8;
 }
 .lista-marcas {
   flex: 1;

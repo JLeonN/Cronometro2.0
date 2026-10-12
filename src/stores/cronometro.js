@@ -11,10 +11,12 @@ export const useCronometroStore = defineStore('cronometro', () => {
   const tiempoTranscurrido = ref(0) // milisegundos
   const estadoCronometro = ref('detenido') // 'detenido' | 'corriendo' | 'pausado'
   const marcas = ref([]) // Array de marcas
+  const cargandoMarcas = ref(true)
   const idIntervalo = ref(null)
   const tiempoInicio = ref(0)
   const tiempoAcumulado = ref(0)
   const tiempoUltimaMarca = ref(0)
+  let operacionAlmacenamiento = Promise.resolve()
 
   // ========================================
   // COMPUTED
@@ -49,6 +51,10 @@ export const useCronometroStore = defineStore('cronometro', () => {
   function iniciar() {
     if (estadoCronometro.value === 'corriendo') return
 
+    if (estadoCronometro.value === 'detenido') {
+      tiempoUltimaMarca.value = 0
+    }
+
     estadoCronometro.value = 'corriendo'
     tiempoInicio.value = Date.now()
 
@@ -78,8 +84,6 @@ export const useCronometroStore = defineStore('cronometro', () => {
     tiempoUltimaMarca.value = 0
     clearInterval(idIntervalo.value)
     idIntervalo.value = null
-    marcas.value = []
-    await guardarMarcasEnAlmacenamiento()
   }
 
   function guardarMarca() {
@@ -92,7 +96,7 @@ export const useCronometroStore = defineStore('cronometro', () => {
       numero: marcas.value.length + 1,
       tiempoMarca: tiempoMarcaActualTotal,
       intervalo: intervalo,
-      id: Date.now(), // Para key única
+      id: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`,
     }
 
     // Agregar al inicio (última marca arriba)
@@ -103,14 +107,18 @@ export const useCronometroStore = defineStore('cronometro', () => {
     guardarMarcasEnAlmacenamiento()
   }
 
-  async function guardarMarcasEnAlmacenamiento() {
+  async function guardarMarcasEnAlmacenamiento(marcasAGuardar = marcas.value) {
+    const valor = JSON.stringify(marcasAGuardar)
+    const operacion = operacionAlmacenamiento.then(() =>
+      Preferences.set({ key: CLAVE_ALMACENAMIENTO, value: valor }),
+    )
+    operacionAlmacenamiento = operacion.catch(() => {})
     try {
-      await Preferences.set({
-        key: CLAVE_ALMACENAMIENTO,
-        value: JSON.stringify(marcas.value),
-      })
+      await operacion
+      return true
     } catch (error) {
       console.error('Error al guardar marcas:', error)
+      return false
     }
   }
 
@@ -122,6 +130,8 @@ export const useCronometroStore = defineStore('cronometro', () => {
       }
     } catch (error) {
       console.error('Error al cargar marcas:', error)
+    } finally {
+      cargandoMarcas.value = false
     }
   }
 
@@ -129,6 +139,20 @@ export const useCronometroStore = defineStore('cronometro', () => {
     marcas.value = []
     tiempoUltimaMarca.value = 0
     await guardarMarcasEnAlmacenamiento()
+  }
+
+  async function reiniciarSesion() {
+    const guardado = await guardarMarcasEnAlmacenamiento([])
+    if (!guardado) throw new Error('No se pudo limpiar la sesión actual')
+
+    clearInterval(idIntervalo.value)
+    idIntervalo.value = null
+    estadoCronometro.value = 'detenido'
+    tiempoTranscurrido.value = 0
+    tiempoInicio.value = 0
+    tiempoAcumulado.value = 0
+    tiempoUltimaMarca.value = 0
+    marcas.value = []
   }
 
   async function eliminarMarca(idMarca) {
@@ -165,6 +189,7 @@ export const useCronometroStore = defineStore('cronometro', () => {
     tiempoTranscurrido,
     estadoCronometro,
     marcas,
+    cargandoMarcas,
 
     // Computed
     tiempoFormateado,
@@ -181,6 +206,7 @@ export const useCronometroStore = defineStore('cronometro', () => {
     detener,
     guardarMarca,
     eliminarTodasLasMarcas,
+    reiniciarSesion,
     eliminarMarca,
     formatearTiempo,
   }

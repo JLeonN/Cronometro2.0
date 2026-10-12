@@ -43,6 +43,17 @@
 
         <q-separator v-if="hayActualizacionDisponible" />
 
+        <q-item clickable @click="irAListasGuardadas">
+          <q-item-section avatar>
+            <q-icon name="list_alt" class="icono-listas-drawer" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('listas.menu') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-separator />
+
         <!-- Sección de idioma -->
         <q-item>
           <q-item-section avatar>
@@ -127,6 +138,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCronometroStore } from 'src/stores/cronometro'
 import { useIdiomaStore } from 'src/stores/storeIdioma'
 import SelectorIdioma from 'src/components/Idiomas/SelectorIdioma.vue'
@@ -137,6 +149,7 @@ import {
 } from 'src/components/Actualizacion/ServicioActualizacionApp'
 
 const cronometroStore = useCronometroStore()
+const router = useRouter()
 const idiomaStore = useIdiomaStore()
 const drawerIzquierdoAbierto = ref(false)
 const hayActualizacionDisponible = ref(false)
@@ -148,6 +161,11 @@ const cambiosActualizacion = ref([])
 
 function alternarDrawerIzquierdo() {
   drawerIzquierdoAbierto.value = !drawerIzquierdoAbierto.value
+}
+
+function irAListasGuardadas() {
+  drawerIzquierdoAbierto.value = false
+  router.push('/listas')
 }
 
 async function verificarActualizacion() {
@@ -287,6 +305,10 @@ const clasePaddingBanner = computed(() => {
   background: rgba(255, 255, 255, 0.18);
 }
 .drawer-personalizado .icono-idioma-drawer {
+  color: var(--color-azul-claro);
+  font-size: 26px;
+}
+.drawer-personalizado .icono-listas-drawer {
   color: var(--color-azul-claro);
   font-size: 26px;
 }
