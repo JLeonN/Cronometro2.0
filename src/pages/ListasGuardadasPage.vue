@@ -17,13 +17,6 @@
       <div v-else-if="listasStore.totalListas === 0" class="estado-vacio">
         <h2>{{ $t('listas.vacio.titulo') }}</h2>
         <p>{{ $t('listas.vacio.descripcion') }}</p>
-        <q-btn unelevated class="boton-principal" :label="$t('listas.volverCronometro')" to="/" />
-        <div class="tutorial-listas">
-          <h3>{{ $t('listas.vacio.tutorialTitulo') }}</h3>
-          <p>{{ $t('listas.vacio.tutorialPasos') }}</p>
-          <p>{{ $t('listas.vacio.ejemploGimnasio') }}</p>
-          <p>{{ $t('listas.vacio.ejemploDistancias') }}</p>
-        </div>
       </div>
       <q-list v-else class="listado-listas">
         <q-slide-item
@@ -59,6 +52,15 @@
           </div>
         </q-slide-item>
       </q-list>
+      <div v-if="!listasStore.cargando && !listasStore.errorCarga" class="acciones-listas">
+        <q-btn unelevated class="boton-principal" :label="$t('listas.volverCronometro')" to="/" />
+      </div>
+      <section v-if="!listasStore.cargando && !listasStore.errorCarga" class="tutorial-listas">
+        <h2>{{ $t('listas.vacio.tutorialTitulo') }}</h2>
+        <p>{{ $t('listas.vacio.tutorialPasos') }}</p>
+        <p>{{ $t('listas.vacio.ejemploGimnasio') }}</p>
+        <p>{{ $t('listas.vacio.ejemploDistancias') }}</p>
+      </section>
     </div>
   </q-page>
 </template>
@@ -131,8 +133,11 @@ async function eliminarLista(idLista, reset) {
   gap: 0.75rem;
   padding: 1rem 0.25rem;
 }
+.estado-vacio {
+  padding-bottom: 0;
+}
 .estado-vacio h2,
-.tutorial-listas h3 {
+.tutorial-listas h2 {
   margin: 0;
   font-size: 1.1rem;
 }
@@ -145,11 +150,14 @@ async function eliminarLista(idLista, reset) {
   color: var(--color-texto-sobre-amarillo);
   min-height: 44px;
 }
+.acciones-listas {
+  margin: 1rem 0.25rem 0;
+}
 .tutorial-listas {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0.25rem 0;
   padding: 1rem;
   border: 1px solid var(--color-azul-claro);
   border-radius: 12px;
