@@ -156,7 +156,7 @@ onBeforeRouteLeave(async () => {
 .contenido-detalle {
   width: min(100%, 600px);
   margin: 0 auto;
-  padding: 1rem 1rem calc(1rem + var(--safe-area-inferior));
+  padding: 1rem 1rem calc(1rem + var(--espacio-inferior-seguro));
 }
 .encabezado-detalle {
   display: flex;

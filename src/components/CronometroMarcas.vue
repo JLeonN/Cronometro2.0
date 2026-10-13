@@ -81,7 +81,7 @@ function confirmarEliminarMarca(idMarca, reset) {
   touch-action: pan-y;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 0 4px 50px 4px;
+  padding: 0 4px var(--espacio-inferior-seguro) 4px;
 }
 .marcas-contenido {
   min-height: min-content;

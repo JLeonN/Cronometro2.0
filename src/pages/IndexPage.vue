@@ -243,7 +243,7 @@ watch(
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 0 1rem calc(1rem + var(--safe-area-inferior)) 1rem;
+  padding: 0 1rem 1rem;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -301,7 +301,7 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 0.75rem 0.25rem 1rem;
+  padding: 0.75rem 0.25rem calc(1rem + var(--espacio-inferior-seguro));
 }
 .formulario-ayuda {
   margin: 0;
