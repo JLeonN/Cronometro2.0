@@ -1,25 +1,35 @@
 {
-  "versionDisponible": "2.1.5",
+  "versionDisponible": "2.1.6",
   "urlPlayStore": "https://play.google.com/store/apps/details?id=com.yojorge.Nombredemiproyecto",
   "mostrarActualizacion": true,
   "cambios": {
     "es-419": [
       {
-        "apartado": "Listas guardadas",
+        "apartado": "Cronómetro",
         "novedades": [
-          "Guarda tus marcas en listas con título y descripción para consultarlas después.",
-          "Revisa los tiempos de cada lista y agrega una nota a cada marca.",
-          "Continúa una lista guardada para registrar más marcas cuando quieras."
+          "El cronómetro aprovecha mejor la pantalla: ya no queda un espacio vacío sobre el anuncio.",
+          "Puedes desplazarte hasta el final de las marcas, formularios y listas sin que el anuncio oculte su contenido."
+        ]
+      },
+      {
+        "apartado": "Compatibilidad",
+        "novedades": [
+          "La app ahora requiere Android 7.0 o una versión posterior."
         ]
       }
     ],
     "en-US": [
       {
-        "apartado": "Saved lists",
+        "apartado": "Stopwatch",
         "novedades": [
-          "Save your laps in lists with a title and description to review them later.",
-          "Review the times in each list and add a note to each lap.",
-          "Continue a saved list to record more laps whenever you want."
+          "The stopwatch makes better use of the screen, with no empty space above the ad.",
+          "You can scroll to the end of laps, forms, and lists without the ad hiding their content."
+        ]
+      },
+      {
+        "apartado": "Compatibility",
+        "novedades": [
+          "The app now requires Android 7.0 or later."
         ]
       }
     ]
